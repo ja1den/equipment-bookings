@@ -14,7 +14,7 @@ PID=$(lsof -ti:$PORT)
 
 # Process Found?
 if [ -z $PID ]; then
-    echo -e "${R}No process found.${N}"
+	echo -e "${R}No process found.${N}"
 	exit 1
 fi
 
