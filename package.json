@@ -13,6 +13,7 @@
 	],
 	"main": "src/index.js",
 	"scripts": {
+		"kill": "scripts/kill.sh",
 		"lint": "sort-package-json",
 		"start": "nodemon"
 	},
