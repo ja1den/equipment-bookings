@@ -1,0 +1,8 @@
+mixin navigation(name)
+	header.navbar.navbar-expand-md.navbar-light.d-print-none
+		.container-xl
+			button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbar-menu', aria-expanded='true')
+				span.navbar-toggler-icon
+			
+			h1.navbar-brand.navbar-brand-autodark.d-none-navbar-horizontal.pe-0.pe-md-3
+				a(href='.')=name
