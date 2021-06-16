@@ -1,0 +1,20 @@
+{
+	"name": "group-project",
+	"version": "0.1.0",
+	"contributors": [
+		{
+			"name": "Jaiden Douglas",
+			"url": "https://github.com/ja1den"
+		},
+		{
+			"name": "Kay0n",
+			"url": "https://github.com/Kay0n"
+		}
+	],
+	"scripts": {
+		"lint": "sort-package-json"
+	},
+	"devDependencies": {
+		"sort-package-json": "^1.50.0"
+	}
+}
