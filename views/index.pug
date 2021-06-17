@@ -2,8 +2,12 @@ include includes/navigation.pug
 
 head
 	include includes/head.pug
-body
-	+navigation("Home")
+
+	link(rel='stylesheet' href='/css/navigation.css')
+	script(src='/js/navigation.js', defer='defer')
+
+body.antialiased
+	+navigation
 
 	.page-wrapper
 		.page-body

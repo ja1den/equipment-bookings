@@ -1,0 +1,11 @@
+a[aria-label="Toggle Theme"] div {
+	--image-url: url(/images/sun-off.svg);
+
+	background-color: currentColor;
+
+	width: 24px;
+	height: 24px;
+	
+	-webkit-mask: var(--image-url) no-repeat center / contain;
+	mask: var(--image-url) no-repeat center / contain;
+}
