@@ -1,5 +1,3 @@
-include includes/navigation.pug
-
 head
 	include includes/head.pug
 
@@ -7,7 +5,7 @@ head
 	script(src='/js/navigation.js', defer='defer')
 
 body.antialiased
-	+navigation
+	include includes/navigation.pug
 
 	.page-wrapper
 		.page-body
