@@ -1,30 +1,21 @@
-// Locate Elements
+// Locate Toggle Element
 const darkToggle = document.querySelector('[aria-label="Toggle Theme"]');
-const imageElement = darkToggle.querySelector('div');
 
-// Initial Theme
-if (document.cookie === '' && window.matchMedia('(prefers-color-scheme: dark)').matches || document.cookie === 'dark=true') {
-	// Set Image
-	imageElement.style.setProperty('--image-url', 'url(/images/sun.svg)');
-
-	// Set Theme
-	document.body.classList.add('theme-dark');
-}
-
-// Bind 'onclick'
-darkToggle.onclick = (event) => {
-	// Ignore Default
+/**
+ * Handle the 'onclick' event.
+ */
+darkToggle.onclick = event => {
+	// Prevent Default
 	event.preventDefault();
 
-	// Current Theme
-	const isDark = document.body.classList.contains('theme-dark');
-
-	// Set Image
-	imageElement.style.setProperty('--image-url', isDark ? 'url(/images/sun-off.svg)' : 'url(/images/sun.svg)');
-
-	// Set Theme
-	document.body.classList.toggle('theme-dark', !isDark);
+	// Read Inverted State
+	isDark = !document.cookie.split(';').some(cookie => cookie.trim().startsWith('isDark='));
 
 	// Set Cookie
-	document.cookie = 'dark=' + !isDark + '; expires=Fri, 31 Dec 10000 23:59:59 GMT';
+	document.cookie = isDark
+		? 'isDark=; expires=Fri, 31 Dec 10000 23:59:59 GMT'
+		: 'isDark=; expires=Thu, 01 Jan 01970 00:00:00 GMT';
+
+	// Toggle 'theme-dark'
+	document.body.classList.toggle('theme-dark', isDark);
 }

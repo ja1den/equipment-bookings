@@ -2,9 +2,9 @@ head
 	include includes/head.pug
 
 	link(rel='stylesheet' href='/css/navigation.css')
-	script(src='/js/navigation.js', defer='defer')
+	script(src='/js/navigation.js', defer)
 
-body.antialiased
+body.antialiased(class=isDark ? 'theme-dark' : undefined)
 	include includes/navigation.pug
 
 	.page-wrapper

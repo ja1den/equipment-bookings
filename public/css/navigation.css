@@ -1,11 +1,19 @@
-a[aria-label="Toggle Theme"] div {
-	--image-url: url(/images/sun-off.svg);
-
+a[aria-label="Toggle Theme"] img {
 	background-color: currentColor;
 
 	width: 24px;
 	height: 24px;
 	
-	-webkit-mask: var(--image-url) no-repeat center / contain;
-	mask: var(--image-url) no-repeat center / contain;
+	-webkit-mask: url(/images/sun-off.svg) no-repeat center / contain;
+	mask: url(/images/sun-off.svg) no-repeat center / contain;
+}
+
+.theme-dark a[aria-label="Toggle Theme"] img {
+	background-color: currentColor;
+
+	width: 24px;
+	height: 24px;
+	
+	-webkit-mask: url(/images/sun.svg) no-repeat center / contain;
+	mask: url(/images/sun.svg) no-repeat center / contain;
 }
