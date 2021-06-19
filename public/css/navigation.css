@@ -1,19 +1,19 @@
-a[aria-label="Toggle Theme"] img {
-	background-color: currentColor;
+/* Light Theme */
 
-	width: 24px;
-	height: 24px;
-	
-	-webkit-mask: url(/images/sun-off.svg) no-repeat center / contain;
-	mask: url(/images/sun-off.svg) no-repeat center / contain;
+.icon-sun {
+	display: none;
 }
 
-.theme-dark a[aria-label="Toggle Theme"] img {
-	background-color: currentColor;
+.icon-sun-off {
+	display: block;
+}
 
-	width: 24px;
-	height: 24px;
-	
-	-webkit-mask: url(/images/sun.svg) no-repeat center / contain;
-	mask: url(/images/sun.svg) no-repeat center / contain;
+/* Dark Theme */
+
+.theme-dark .icon-sun {
+	display: block;
+}
+
+.theme-dark .icon-sun-off {
+	display: none;
 }
