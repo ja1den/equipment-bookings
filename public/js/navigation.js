@@ -1,9 +1,7 @@
 // Locate Toggle Element
 const darkToggle = document.querySelector('[aria-label="Toggle Theme"]');
 
-/**
- * Handle the 'onclick' event.
- */
+// Handle 'onclick'
 darkToggle.onclick = event => {
 	// Prevent Default
 	event.preventDefault();
@@ -13,8 +11,8 @@ darkToggle.onclick = event => {
 
 	// Set Cookie
 	document.cookie = isDark
-		? 'isDark=; expires=Fri, 31 Dec 10000 23:59:59 GMT'
-		: 'isDark=; expires=Thu, 01 Jan 01970 00:00:00 GMT';
+		? 'isDark=; expires=Fri, 31 Dec 9999 23:59:59 GMT'
+		: 'isDark=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
 
 	// Toggle 'theme-dark'
 	document.body.classList.toggle('theme-dark', isDark);
