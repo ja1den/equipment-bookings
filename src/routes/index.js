@@ -1,11 +1,11 @@
-// Route Definition
-async function route(req, res) {
-	// Read Cookie
-	const isDark = (req.headers.cookie ?? '').split(';').some(cookie => cookie.trim().startsWith('isDark='));
+// Import
+const parseCookie = require('../lib/parseCookie');
+
+// Export Route
+module.exports = async function (req, res) {
+	// Parse Cookie
+	const isDark = parseCookie(req.headers.cookie ?? '').isDark !== undefined;
 
 	// Render Page
 	res.render('index', { isDark });
 }
-
-// Export
-module.exports = route;

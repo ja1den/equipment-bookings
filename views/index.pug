@@ -1,10 +1,10 @@
+include includes/navigation.pug
+
 head
 	include includes/head.pug
 
-	link(rel='stylesheet' href='/css/navigation.css')
-
-body.antialiased(class=isDark ? 'theme-dark' : undefined)
-	include includes/navigation.pug
+body.antialiased(class={'theme-dark': isDark})
+	+navigation(1)
 
 	.page-wrapper
 		.page-body
@@ -13,4 +13,4 @@ body.antialiased(class=isDark ? 'theme-dark' : undefined)
 					p.empty-title Hello, world!
 					p.empty-subtitle.text-muted This page is currently under development.
 
-	script(src='/js/navigation.js')
+	include includes/scripts.pug
