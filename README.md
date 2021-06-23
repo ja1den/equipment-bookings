@@ -1,12 +1,14 @@
-# Equipment Tracker
+# Equipment Booking System
 
 > Group project for Stage 2 Digital Technologies
 
 ## Introduction
 
-This app is designed to manage bookings for a catalogue of equipment, and generate a series of useful reports.
+This app is designed to manage bookings for a dynamic catalogue of equipment.
 
-It reads from a [MySQL](https://www.mysql.com/) database, and is built with [Express](https://expressjs.com/), using [Pug](https://pugjs.org/).
+It can generate daily reports and list bookings for a specific item.
+
+The system reads from a [MySQL](https://www.mysql.com/) database, and is built with [Express](https://expressjs.com/), using [Pug](https://pugjs.org/).
 
 ## Usage
 
