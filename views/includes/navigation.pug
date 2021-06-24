@@ -1,5 +1,5 @@
 nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top.border-bottom
-	.container-fluid
+	.container
 		//- Page Title
 		span.navbar-brand.d-none.d-sm-block Equipment Booking System
 		span.navbar-brand.d-sm-none Booking System
@@ -17,4 +17,4 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top.border-bottom
 						a.nav-link(class={ 'active': page === index + 1 }, aria-current=(page === index + 1 && 'page'), href='#')=name
 
 			//- Sign In
-			button.btn.btn-outline-primary.mb-2.mb-lg-0(type='button') Sign In
+			button.btn.btn-outline-primary.mb-2.mb-lg-0(type='button', data-bs-toggle='modal' data-bs-target='#login-modal') Log In

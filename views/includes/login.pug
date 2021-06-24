@@ -1,0 +1,20 @@
+#login-modal.modal.fade(tabindex='-1')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				h5.modal-title Log In
+				button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+
+			.modal-body
+				form
+					.mb-3
+						label(for="email" class="form-label") Email
+						input(type="email" class="form-control" id="email")
+
+					.mb-3
+						label(for="password" class="form-label") Password
+						input(type="passwrod" class="form-control" id="password")
+
+			.modal-footer
+				button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
+				button.btn.btn-primary(type='button') Log In
