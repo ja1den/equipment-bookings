@@ -1,5 +1,5 @@
 // Import
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 // Connect
 const connection = mysql.createConnection({
@@ -13,4 +13,4 @@ const connection = mysql.createConnection({
 });
 
 // Export
-export default connection.promise();
+module.exports = connection.promise();

@@ -4,6 +4,8 @@ const path = require('path');
 const minimist = require('minimist');
 const express = require('express');
 
+const passport = require('./lib/passport');
+
 require('colors');
 
 // Lib
@@ -23,6 +25,18 @@ async function main() {
 
 	// Express
 	const app = express().use(express.json());
+
+	const expressSession = require('express-session')({
+		secret: 'secret',
+		resave: false,
+		saveUninitialized: false
+	});
+
+	app.use(expressSession);
+
+	// Passport
+	app.use(passport.initialize());
+	app.use(passport.session());
 
 	// Pug
 	app.set('view engine', 'pug');
@@ -51,10 +65,8 @@ async function main() {
 		// Import Method
 		const { default: method } = await import(route);
 
-		if (typeof method !== 'function') continue;
-
 		// Bind Route
-		app.all(name, method);
+		if (typeof method === 'function') app.all(name, method);
 	}
 
 	// Public Files
