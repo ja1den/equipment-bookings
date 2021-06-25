@@ -10,7 +10,7 @@ if [ -z $1 ]; then
 fi
 
 # Bcrypt
-HASH=$(htpasswd -bnBC 10 "" $0 | tr -d ':\n')
+HASH=$(htpasswd -bnBC 10 '' $1 | tr -d ':\n' | sed 's/$2y/$2a/' )
 
 # Log
 echo -e "${G}$HASH${N}"
