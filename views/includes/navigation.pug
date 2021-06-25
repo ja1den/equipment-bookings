@@ -1,20 +1,15 @@
 nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top.border-bottom
 	.container
-		//- Page Title
 		span.navbar-brand.d-none.d-sm-block Equipment Booking System
 		span.navbar-brand.d-sm-none Booking System
 
-		//- Toggle Button (mobile)
 		button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#collapse', aria-controls='collapse', aria-expanded='false', aria-label='Toggle Navigation')
 			span.navbar-toggler-icon
 
-		//- Navigation Links
 		#collapse.collapse.navbar-collapse
-			//- Page Links
 			ul.navbar-nav.me-auto.mb-2.mb-lg-0
 				each name, index in ['Catalogue', 'Booking', 'Report', 'Item Details']
 					li.nav-item
 						a.nav-link(class={ 'active': page === index + 1 }, aria-current=(page === index + 1 && 'page'), href='#')=name
 
-			//- Sign In
 			button.btn.btn-outline-primary.mb-2.mb-lg-0(type='button', data-bs-toggle='modal' data-bs-target='#login-modal') Log In
