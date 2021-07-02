@@ -6,15 +6,19 @@
 				button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
 
 			.modal-body
-				form#login
+				form#login-form(novalidate)
 					.mb-3
-						label(for='email' class='form-label') Email
-						input(type='email' class='form-control' id='email')
+						label.form-label(for='login-email') Email
+						input#login-email.form-control(type='email', name='email', required)
+						.invalid-feedback Please enter a valid email address.
 
 					.mb-3
-						label(for='password' class='form-label') Password
-						input(type='password' class='form-control' id='password')
+						label.form-label(for='login-password') Password
+						input#login-password.form-control(type='password', name='password', required)
+						.invalid-feedback Please enter a password.
+
+					p.text-danger.mb-0.d-none Incorrect email or password.
 
 			.modal-footer
 				button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
-				button.btn.btn-primary(type='button') Log In
+				button.btn.btn-primary(type='submit', form='login-form') Log In
