@@ -4,7 +4,11 @@ const path = require('path');
 const minimist = require('minimist');
 const express = require('express');
 
+const session = require('express-session');
+const SessionStore = require('express-mysql-session')(session);
+
 const passport = require('./lib/passport');
+const mysql = require('./lib/mysql');
 
 require('colors');
 
@@ -26,25 +30,24 @@ async function main() {
 	// Express
 	const app = express().use(express.json());
 
-	const expressSession = require('express-session')({
+	app.use(session({
 		secret: 'group-project',
+		store: new SessionStore({}, mysql),
 		resave: false,
 		saveUninitialized: false
-	});
-
-	app.use(expressSession);
+	}));
 
 	// Passport
 	app.use(passport.initialize());
 	app.use(passport.session());
 
 	// Pug
-	app.set('view engine', 'pug');
-
 	app.use((req, res, next) => {
 		res.locals.current_url = req.url;
 		next();
 	});
+
+	app.set('view engine', 'pug');
 
 	// Load Routes
 	const routes = getPaths(path.resolve(__dirname, 'routes'));
