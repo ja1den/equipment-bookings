@@ -27,7 +27,7 @@ async function main() {
 	const app = express().use(express.json());
 
 	const expressSession = require('express-session')({
-		secret: 'secret',
+		secret: 'group-project',
 		resave: false,
 		saveUninitialized: false
 	});
@@ -40,6 +40,11 @@ async function main() {
 
 	// Pug
 	app.set('view engine', 'pug');
+
+	app.use((req, res, next) => {
+		res.locals.current_url = req.url;
+		next();
+	});
 
 	// Load Routes
 	const routes = getPaths(path.resolve(__dirname, 'routes'));

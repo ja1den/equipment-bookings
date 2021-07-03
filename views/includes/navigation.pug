@@ -1,4 +1,11 @@
-nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top.border-bottom
+//- Page List
+-
+	const pageList = user !== undefined
+		? [ { name: 'Booking', url: '' }, { name: 'Item Details', url: 'item_details' }, { name: 'Catalogue', url: 'catalogue' }, { name: 'Report', url: 'report' } ]
+		: [ { name: 'Booking', url: '' }, { name: 'Item Details', url: 'item_details' } ];
+
+//- Navigation HTML
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
 	.container
 		span.navbar-brand.d-none.d-sm-block Equipment Booking System
 		span.navbar-brand.d-sm-none Booking System
@@ -7,21 +14,18 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top.border-bottom
 			span.navbar-toggler-icon
 
 		#navbar-collapse.collapse.navbar-collapse
-			ul.navbar-nav.me-auto.mb-2.mb-lg-0
-				each name, index in ['Catalogue', 'Booking', 'Report', 'Item Details']
+			ul.navbar-nav.me-auto
+				each page, index in pageList
 					li.nav-item
-						a.nav-link(class={ 'active': page === index + 1 }, aria-current=(page === index + 1 && 'page'), href='#')=name
+						a.nav-link(class={ 'active': current_url === '/' + page.url }, aria-current=(current_url === '/' + page.url && 'page'), href=('/' + page.url))=page.name
 
 			ul.navbar-nav.mb-2.mb-lg-0
 				if user !== undefined
 						li.nav-item.dropdown
 							a#user-menu.nav-link.dropdown-toggle(href='#', role='button', data-bs-toggle='dropdown', aria-expanded='false')=user.name + ' '
 							ul.dropdown-menu(aria-labelledby='user-menu')
-								li
-									a.dropdown-item(href='#') Settings
-								li
-									hr.dropdown-divider
-								li
-									a#logout-link.dropdown-item(href='/api/logout') Log Out
+								li: a.dropdown-item(href='/settings') Settings
+								li: hr.dropdown-divider
+								li: a#logout-link.dropdown-item(href='/api/logout') Log Out
 				else
-					button.btn.btn-outline-primary(type='button', data-bs-toggle='modal' data-bs-target='#login-modal') Log In
+					button.btn.btn-outline-light.mt-2(type='button', data-bs-toggle='modal' data-bs-target='#login-modal') Log In

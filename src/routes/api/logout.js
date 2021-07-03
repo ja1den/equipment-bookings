@@ -1,5 +1,2 @@
 // Export Route
-module.exports = (req, res) => {
-	req.logout();
-	res.redirect('/');
-}
+module.exports = req => req.logout().end();
