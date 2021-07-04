@@ -1,71 +1,16 @@
-/* ---------- Login ---------- */
+/* ---------- Elements ---------- */
 
-// Locate Element
+// Login
 const loginModal = document.getElementById('login-modal');
 const loginForm = document.getElementById('login-form');
 
-// Handle Modal
-if (loginModal !== null) {
-	loginModal.addEventListener('show.bs.modal', () => {
-		// Reset Styles
-		resetFormStyles();
+// Logout
+const logoutLink = document.getElementById('logout-link');
 
-		// Reset Inputs
-		loginForm.reset();
-	});
-}
-
-// Handle Login
-if (loginForm !== null) {
-	loginForm.onsubmit = async event => {
-		// Prevent Default
-		event.preventDefault();
-
-		// Reset Styles
-		resetFormStyles();
-
-		// Check Form
-		const isValid = loginForm.checkValidity();
-
-		// Check Succeeded?
-		if (isValid) {
-			// Parse Form Data
-			const data = [...new FormData(loginForm).entries()].reduce(
-				(data, entry) => ({
-					...data, [entry[0]]: entry[1]
-				}), {}
-			);
-
-			// Emit Request
-			const response = await fetch('/api/auth/login', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(data)
-			});
-
-			// Success?
-			if (response.status !== 401) return history.go();
-
-			// Handle Error
-			loginForm.querySelector('p').classList.remove('d-none');
-
-			// Update Styles
-			loginForm.querySelectorAll('input').forEach(element => {
-				element.classList.add('is-invalid');
-			});
-
-			loginForm.querySelectorAll('.invalid-feedback').forEach(element => {
-				element.classList.add('d-none');
-			});
-		} else {
-			// Update Style
-			loginForm.classList.add('was-validated');
-		}
-	}
-}
+/* ---------- Login ---------- */
 
 // Reset Form Styles
-function resetFormStyles() {
+const resetFormStyles = () => {
 	// Reset Styles
 	loginForm.querySelectorAll('input').forEach(element => {
 		element.classList.remove('is-invalid');
@@ -81,21 +26,72 @@ function resetFormStyles() {
 	loginForm.querySelector('p').classList.add('d-none');
 }
 
-/* ---------- Logout ---------- */
+// Handle Modal
+loginModal?.addEventListener('show.bs.modal', () => {
+	// Reset Styles
+	resetFormStyles();
 
-// Locate Element
-const logoutLink = document.getElementById('logout-link');
+	// Reset Inputs
+	loginForm.reset();
+});
 
-// Handle Logout
-if (logoutLink !== null) {
-	logoutLink.onclick = async event => {
-		// Prevent Default
-		event.preventDefault();
+// Handle Login
+loginForm?.addEventListener('submit', async event => {
+	// Prevent Default
+	event.preventDefault();
+
+	// Reset Styles
+	resetFormStyles();
+
+	// Check Form
+	const isValid = loginForm.checkValidity();
+
+	// Check Succeeded?
+	if (isValid) {
+		// Parse Form Data
+		const data = [...new FormData(loginForm).entries()].reduce(
+			(data, entry) => ({
+				...data, [entry[0]]: entry[1]
+			}), {}
+		);
 
 		// Emit Request
-		await fetch('/api/auth/logout');
+		const response = await fetch('/api/auth/login', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(data)
+		});
 
-		// Reload
-		history.go();
+		// Success?
+		if (response.status !== 401) return history.go();
+
+		// Handle Error
+		loginForm.querySelector('p').classList.remove('d-none');
+
+		// Update Styles
+		loginForm.querySelectorAll('input').forEach(element => {
+			element.classList.add('is-invalid');
+		});
+
+		loginForm.querySelectorAll('.invalid-feedback').forEach(element => {
+			element.classList.add('d-none');
+		});
+	} else {
+		// Update Style
+		loginForm.classList.add('was-validated');
 	}
-}
+});
+
+/* ---------- Logout ---------- */
+
+// Handle Logout
+logoutLink?.addEventListener('click', async event => {
+	// Prevent Default
+	event.preventDefault();
+
+	// Emit Request
+	await fetch('/api/auth/logout');
+
+	// Reload
+	history.go();
+});
