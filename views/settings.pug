@@ -1,5 +1,45 @@
 extends includes/layout.pug
 
+mixin link(disabled)
+	a(class={ 'disabled': disabled }, tabindex=disabled && '-1', aria-disabled=disabled && 'true')&attributes(attributes): block
+
+block append scripts
+	script(src='/js/settings.js')
+
 block content
 	h4 User Management
-	p.text-muted This page is currently under development.
+	p.text-muted Create and manage user accounts.
+
+	.table-responsive
+		table#user-table.table.table-striped
+			thead.table-dark
+				tr
+					th(scope='col') #
+					th(scope='col') Name
+					th(scope='col') Email
+					th(scope='col') Password
+					th(scope='col') Global
+					th(scope='col') Hidden
+					th(scope='col'): i.bi.bi-plus-square
+					th(scope='col')
+
+			tbody
+				each record, index in records
+					tr
+						th(scope='row')=record.id
+						td(style={ 'white-space': 'nowrap' })=record.name
+						td=record.email
+						td ...
+						td=record.global
+						td=record.hidden
+						td(style={ 'width': 0 }): i.d-inline-block.bi.bi-pencil
+						td(style={ 'width': 0 }): i.d-inline-block.bi.bi-trash
+
+	nav.d-flex.align-items-center.pb-1(aria-label='Table Pagination')
+		+link((page === 1)).btn.btn-dark.me-2(href='?page=1', role='button'): i.bi.bi-chevron-double-left
+		+link((page === 1)).btn.btn-dark.me-auto(href='?page=' + (page - 1), role='button'): i.bi.bi-chevron-left
+
+		p.me-auto.mb-0 Page #[strong #{page}] of #[strong #{pages}]
+
+		+link((page === pages)).btn.btn-dark.me-2(href='?page=' + (page + 1), role='button'): i.bi.bi-chevron-right
+		+link((page === pages)).btn.btn-dark(href='?page=' + pages, role='button'): i.bi.bi-chevron-double-right

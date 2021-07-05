@@ -1,8 +1,8 @@
 //- Page List
 -
 	const pageList = user !== undefined
-		? [ { name: 'Booking', url: '' }, { name: 'Item Details', url: 'item_details' }, { name: 'Catalogue', url: 'catalogue' }, { name: 'Report', url: 'report' } ]
-		: [ { name: 'Booking', url: '' }, { name: 'Item Details', url: 'item_details' } ];
+		? [ { name: 'Create Booking', url: '' }, { name: 'Item Details', url: 'item_details' }, { name: 'Item Catalogue', url: 'catalogue' }, { name: 'Daily Report', url: 'report' } ]
+		: [ { name: 'Create Booking', url: '' }, { name: 'Item Details', url: 'item_details' } ];
 
 //- Navigation HTML
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
@@ -28,4 +28,4 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
 								li: hr.dropdown-divider
 								li: a#logout-link.dropdown-item(href='/api/auth/logout') Log Out
 				else
-					button.btn.btn-outline-light.mt-2(type='button', data-bs-toggle='modal' data-bs-target='#login-modal') Log In
+					button.btn.btn-outline-light.mt-2.mt-lg-0(type='button', data-bs-toggle='modal' data-bs-target='#login-modal') Log In

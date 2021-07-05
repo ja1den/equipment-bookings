@@ -7,12 +7,12 @@ const express = require('express');
 const session = require('express-session');
 const SessionStore = require('express-mysql-session')(session);
 
-const passport = require('./lib/passport');
-const mysql = require('./lib/mysql');
-
 require('colors');
 
 // Lib
+const passport = require('./lib/passport');
+const mysql = require('./lib/mysql');
+
 const getPaths = require('./lib/getPaths');
 
 // Main
