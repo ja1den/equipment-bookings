@@ -2,9 +2,10 @@
 const path = require('path');
 
 const minimist = require('minimist');
-const express = require('express');
 
+const express = require('express');
 const session = require('express-session');
+
 const SessionStore = require('express-mysql-session')(session);
 
 require('colors');

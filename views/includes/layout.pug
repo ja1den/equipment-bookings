@@ -11,13 +11,13 @@ html(lang='en')
 
 		title Equipment Booking System
 
-	body(style={ 'padding-top': '6.4rem' })
+	body(style={ 'padding-top': '3.5rem' })
 		include ./navigation.pug
 		
 		if user === undefined
 			include ./login.pug
 
-		.container
+		.container.pt-4.pt-lg-5
 			block content
 
 		block scripts

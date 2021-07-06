@@ -7,7 +7,7 @@ const size = 10;
 // Export Route
 module.exports = async (req, res) => {
 	// Require Login
-	if (!req.isAuthenticated()) return res.redirect('back');
+	if (!req.isAuthenticated()) return res.redirect('/');
 
 	// Execute SQL
 	let records = await mysql.query('SELECT id, name, email, hidden, global FROM user;')
@@ -23,9 +23,9 @@ module.exports = async (req, res) => {
 	const page = parseFloat(req.query.page);
 
 	// Check Page
-	if (!Number.isInteger(page)) return res.redirect('?page=' + parseInt(page));
-
 	if (isNaN(page)) return res.redirect('?page=1');
+
+	if (!Number.isInteger(page)) return res.redirect('?page=' + parseInt(page));
 
 	if (page < 1) return res.redirect('?page=1');
 

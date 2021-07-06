@@ -1,10 +1,8 @@
-//- Page List
 -
 	const pageList = user !== undefined
 		? [ { name: 'Create Booking', url: '' }, { name: 'Item Details', url: 'item_details' }, { name: 'Item Catalogue', url: 'catalogue' }, { name: 'Daily Report', url: 'report' } ]
 		: [ { name: 'Create Booking', url: '' }, { name: 'Item Details', url: 'item_details' } ];
 
-//- Navigation HTML
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
 	.container
 		span.navbar-brand.d-none.d-sm-block Equipment Booking System
@@ -17,7 +15,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
 			ul.navbar-nav.me-auto
 				each page, index in pageList
 					li.nav-item
-						a.nav-link(class={ 'active': current_url === '/' + page.url }, aria-current=(current_url === '/' + page.url && 'page'), href=('/' + page.url))=page.name
+						a.nav-link(class={ 'active': current_url.split('?')[0] === '/' + page.url }, aria-current=(current_url.split('?')[0] === '/' + page.url && 'page'), href=('/' + page.url))=page.name
 
 			ul.navbar-nav.mb-2.mb-lg-0
 				if user !== undefined
