@@ -1,5 +1,5 @@
 // Import
-const mysql = require('../lib/mysql');
+const models = require('../../models');
 
 // Page Size
 const size = 10;
@@ -10,9 +10,7 @@ module.exports = async (req, res) => {
 	if (!req.isAuthenticated()) return res.redirect('/');
 
 	// Execute SQL
-	let records = await mysql.query('SELECT id, name, email, hidden, global FROM user;')
-		.then(results => results[0])
-		.catch(() => void res.status(500).send());
+	let records = await models.user.readAll().catch(() => res.status(500).send());
 
 	if (records === undefined) return;
 

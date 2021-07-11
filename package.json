@@ -24,6 +24,7 @@
 		"express": "^4.17.1",
 		"express-mysql-session": "^2.1.6",
 		"express-session": "^1.17.2",
+		"joi": "^17.4.0",
 		"minimist": "^1.2.5",
 		"mysql2": "^2.2.5",
 		"passport": "^0.4.1",
