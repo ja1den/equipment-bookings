@@ -21,7 +21,9 @@ block append modals
 							.invalid-feedback Please enter a valid email address.
 
 						.mb-3
-							label.form-label(for='user-password') Password
+							label.form-label.d-flex.align-items-center(for='user-password')
+								p.mb-0 Password&nbsp;
+								i.bi.bi-info-circle(style={ 'font-size': '0.75rem' }, tabindex='0', data-bs-toggle='popover', data-bs-trigger='hover focus', data-bs-content='Leave this field empty to keep the current password.')
 							input#user-password.form-control(type='password', name='password', required)
 							.invalid-feedback Please enter a password.
 
@@ -69,7 +71,7 @@ block content
 						td: i.bi(class=record.global ? 'bi-check' : 'bi-dash')
 						td: i.bi(class=record.hidden ? 'bi-check' : 'bi-dash')
 						td(style={ 'width': 0 }): if user.global || user.id === record.id
-							a.link-dark(href='about:blank', role='button', aria-label='Update Record', data-bs-toggle='modal', data-bs-target='#user-modal', data-record-id=record.id): i.bi.bi-pencil
+							a.link-dark(href='about:blank', role='button', aria-label='Update Record', data-bs-toggle='modal', data-bs-target='#user-modal', data-record-id=record.id, data-current=(user.id === record.id)): i.bi.bi-pencil
 						if user.global 
 							td(style={ 'width': 0 }): if user.id !== record.id
 								a.link-dark(href='about:blank', role='button', aria-label='Delete Record', data-record-id=record.id): i.bi.bi-trash

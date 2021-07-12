@@ -15,7 +15,7 @@ const modals = document.getElementsByClassName('modal');
 
 			modalForm.classList.remove('was-validated');
 
-			modalForm.querySelector('p').classList.add('d-none');
+			modalForm.querySelector(':scope > p').classList.add('d-none');
 		}
 
 		// Show Input Errors
@@ -31,7 +31,7 @@ const modals = document.getElementsByClassName('modal');
 			modalForm.querySelectorAll('.invalid-feedback').forEach(element => element.classList.add('d-none'));
 			modalForm.querySelectorAll(match).forEach(element => element.classList.add('is-invalid'));
 
-			modalForm.querySelector('p').classList.remove('d-none');
+			modalForm.querySelector(':scope > p').classList.remove('d-none');
 		}
 
 		// Hidden Event

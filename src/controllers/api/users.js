@@ -48,8 +48,8 @@ router.put('/:id', auth, async (req, res) => {
 		if (!req.user.global) return res.status(401).end();
 	}
 
-	// Execute
-	models.user.update(req.params.id, req.body).then(() => res.status(204).end())
+	// Update Fields
+	await models.user.update(req.params.id, req.body)
 		.catch(err => {
 			// Joi
 			if (err.details !== undefined) return res.status(400).end();
@@ -57,6 +57,15 @@ router.put('/:id', auth, async (req, res) => {
 			// Unknown
 			res.status(500).end();
 		});
+
+	// Change Password
+	if (req.body.password !== undefined) {
+		await models.user.changePassword(req.params.id, req.body.password)
+			.catch(() => res.status(500).end());
+	}
+
+	// Respond
+	res.status(204).end();
 });
 
 // Delete

@@ -26,8 +26,10 @@ userForm?.addEventListener('submit', async event => {
 		const data = Object.fromEntries(new FormData(userForm).entries());
 
 		// Parse Data
-		data.global = data.global === 'on';
-		data.hidden = data.hidden === 'on';
+		if (data.password === '') delete data.password;
+
+		data.global = userForm.querySelector('#user-global').checked;
+		data.hidden = userForm.querySelector('#user-hidden').checked;
 
 		// Emit Request
 		let response = null;
@@ -67,7 +69,7 @@ userForm?.addEventListener('submit', async event => {
 
 const createLink = document.querySelector('a[aria-label="Create Record"]');
 
-createLink.addEventListener('click', event => {
+createLink?.addEventListener('click', event => {
 	// Prevent Default
 	event.preventDefault();
 
@@ -76,6 +78,15 @@ createLink.addEventListener('click', event => {
 
 	// Unset Record ID
 	delete userForm.dataset.recordId;
+
+	// Require Password
+	userForm.querySelector('#user-password').setAttribute('required', '');
+
+	// Enable Global
+	userForm.querySelector('#user-global').removeAttribute('disabled');
+
+	// Hide Popover
+	userForm.querySelector('label i.bi-info-circle').classList.add('d-none');
 });
 
 /* ----- Update ----- */
@@ -90,6 +101,19 @@ updateLinks.forEach(element => element.addEventListener('click', event => {
 
 	// Update Title
 	document.querySelector('#user-modal .modal-title').innerHTML = 'Update User';
+
+	// Unrequire Password
+	userForm.querySelector('#user-password').removeAttribute('required');
+
+	// Disable Global
+	if (element.dataset.current !== undefined) {
+		userForm.querySelector('#user-global').setAttribute('disabled', '');
+	} else {
+		userForm.querySelector('#user-global').removeAttribute('disabled');
+	}
+
+	// Show Popover
+	userForm.querySelector('label i.bi-info-circle').classList.remove('d-none');
 
 	// Set Record ID
 	userForm.dataset.recordId = element.dataset.recordId;

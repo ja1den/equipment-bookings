@@ -6,22 +6,25 @@ const Joi = require('joi');
 const mysql = require('../helpers/mysql');
 
 // Joi
-const schema = Joi.object({
-	name: Joi.string().required(),
-	email: Joi.string().email().required(),
-	password: Joi.string().min(4).required(),
-	global: Joi.boolean().required(),
-	hidden: Joi.boolean().required()
-});
+const schema = [
+	Joi.object({
+		name: Joi.string().required(),
+		email: Joi.string().email().required(),
+		global: Joi.boolean().required(),
+		hidden: Joi.boolean().required()
+	}),
+	Joi.object({
+		password: Joi.string().min(4).required(),
+	})
+];
 
 /**
  * Create a new user, using the parameters provided.
  */
 exports.create = params => new Promise(async (resolve, reject) => {
-	// Check Options
-	const { error } = schema.validate(params);
+	// Schema Check
+	const { error } = schema[0].concat(schema[1]).validate(params);
 
-	// Handle Errors
 	if (error !== undefined) return reject(error);
 
 	// Generate Hash
@@ -41,7 +44,7 @@ exports.create = params => new Promise(async (resolve, reject) => {
 
 	if (result === undefined) return;
 
-	// Return ID
+	// Return
 	return resolve(result[0].insertId);
 });
 
@@ -83,22 +86,15 @@ exports.readAll = () => new Promise(async (resolve, reject) => {
  * Update a specific user using the parameters provided.
  */
 exports.update = (id, params) => new Promise(async (resolve, reject) => {
-	// Check Options
-	const { error } = schema.validate(params);
+	// Schema Check
+	const { error } = schema[0].validate(params, { allowUnknown: true });
 
-	// Handle Errors
 	if (error !== undefined) return reject(error);
 
-	// Generate Hash
-	const hash = await bcrypt.hash(params.password, 10).catch(reject);
-
-	if (hash === undefined) return;
-
 	// Update Record
-	const result = await mysql.query('UPDATE user SET name = ?, email = ?, password = ?, global = ?, hidden = ? WHERE id = ?', [
+	const result = await mysql.query('UPDATE user SET name = ?, email = ?, global = ?, hidden = ? WHERE id = ?', [
 		params.name,
 		params.email,
-		hash,
 		params.global,
 		params.hidden,
 		id
@@ -107,7 +103,26 @@ exports.update = (id, params) => new Promise(async (resolve, reject) => {
 
 	if (result === undefined) return;
 
-	// Return ID
+	// Return
+	return resolve();
+});
+
+/**
+ * Change a user's password.
+ */
+exports.changePassword = (id, password) => new Promise(async (resolve, reject) => {
+	// Generate Hash
+	const hash = await bcrypt.hash(password, 10).catch(reject);
+
+	if (hash === undefined) return;
+
+	// Update Record
+	const result = await mysql.query('UPDATE user SET password = ? WHERE id = ?', [hash, id])
+		.catch(reject);
+
+	if (result === undefined) return;
+
+	// Return
 	return resolve();
 });
 
