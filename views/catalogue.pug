@@ -1,5 +1,82 @@
 extends includes/layout.pug
 
+block append modals
+	#item-modal.modal.fade(tabindex='-1')
+		.modal-dialog
+			.modal-content
+				.modal-header
+					h5.modal-title Create Item
+					button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+
+				.modal-body
+					form#item-form(novalidate)
+						.mb-3
+							label.form-label(for='item-name') Name
+							input#item-name.form-control(type='text', name='name', required)
+							.invalid-feedback Please enter a name.
+
+						.mb-3
+							label.form-label(for='item-category') Category
+							input#item-category.form-control(type='text', name='category', list='categories', required)
+							.invalid-feedback Please enter a category.
+
+							datalist#categories
+								each category in categories
+									option=category
+
+						.mb-3
+							label.form-label(for='item-stock') Stock
+							input#item-stock.form-control(type='number', name='stock', required)
+							.invalid-feedback Please enter the amount of stock.
+
+						.form-check.mb-2
+							input#item-hidden.form-check-input(type='checkbox' name='hidden')
+							label.form-check-label(for='item-hidden') Hidden
+
+						p.text-danger.mb-0.d-none Duplicate name.
+
+				.modal-footer
+					button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
+					button.btn.btn-primary(type='submit', form='item-form') Submit
+
 block content
+	mixin link(disabled)
+		a(class={ 'disabled': disabled }, tabindex=disabled && '-1', aria-disabled=disabled && 'true')&attributes(attributes): block
+
 	h4 Item Catalogue
-	p.text-muted This page is currently under development.
+	p.text-muted Create and manage catalogue items.
+
+	.table-responsive
+		table#item-table.table.table-striped
+			thead.table-dark
+				tr
+					th(scope='col') Name
+					th(scope='col') Category
+					th(scope='col') Stock
+					th(scope='col') Hidden
+					th(scope='col'): a.link-light(href='about:blank', role='button', aria-label='Create Record', data-bs-toggle='modal', data-bs-target='#item-modal'): i.bi.bi-plus-square
+					th(scope='col')
+
+			tbody
+				each record, index in records
+					tr(data-record-id=record.id)
+						td(style={ 'white-space': 'nowrap' })=record.name
+						td=record.category
+						td=record.stock
+						td: i.bi(class=record.hidden ? 'bi-check' : 'bi-dash')
+						td(style={ 'width': 0 })
+							a.link-dark(href='about:blank', role='button', aria-label='Update Record', data-bs-toggle='modal', data-bs-target='#item-modal', data-record-id=record.id): i.bi.bi-pencil
+						td(style={ 'width': 0 })
+							a.link-dark(href='about:blank', role='button', aria-label='Delete Record', data-record-id=record.id): i.bi.bi-trash
+
+	nav.d-flex.align-items-center.pb-1(aria-label='Table Pagination')
+		+link((page === 1)).btn.btn-dark.me-2(href='?page=1', role='button'): i.bi.bi-chevron-double-left
+		+link((page === 1)).btn.btn-dark.me-auto(href='?page=' + (page - 1), role='button'): i.bi.bi-chevron-left
+
+		p.me-auto.mb-0 Page #[strong #{page}] of #[strong #{pages}]
+
+		+link((page === pages)).btn.btn-dark.me-2(href='?page=' + (page + 1), role='button'): i.bi.bi-chevron-right
+		+link((page === pages)).btn.btn-dark(href='?page=' + pages, role='button'): i.bi.bi-chevron-double-right
+
+block append scripts
+	script(src='/js/catalogue.js')

@@ -83,7 +83,7 @@ exports.readAll = () => new Promise(async (resolve, reject) => {
 });
 
 /**
- * Update a specific user using the parameters provided.
+ * Update a user using the parameters provided.
  */
 exports.update = (id, params) => new Promise(async (resolve, reject) => {
 	// Schema Check

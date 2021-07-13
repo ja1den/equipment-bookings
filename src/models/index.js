@@ -1,2 +1,5 @@
 // Export
-module.exports = { user: require('./user') };
+module.exports = {
+	item: require('./item'),
+	user: require('./user')
+};
