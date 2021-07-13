@@ -56,7 +56,7 @@ exports.read = id => new Promise(async (resolve, reject) => {
  */
 exports.readAll = () => new Promise(async (resolve, reject) => {
 	// Execute SQL
-	const items = await mysql.query('SELECT * FROM item ORDER BY id')
+	const items = await mysql.query('SELECT * FROM item ORDER BY category, name')
 		.then(result => result[0]).catch(reject);
 
 	// Parse Boolean

@@ -35,8 +35,6 @@ module.exports = async (req, res) => {
 	// Read Categories
 	const categories = await models.item.readCategories();
 
-	console.log(categories);
-
 	// Render HTML
 	res.render('catalogue', { user: req.user, records, page, pages, categories });
 }
