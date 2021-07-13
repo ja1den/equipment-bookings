@@ -1,2 +1,2 @@
 // Export Route
-module.exports = (req, res) => res.render('index', { user: req.user });
+module.exports = (req, res) => res.render('booking', { user: req.user });
