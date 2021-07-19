@@ -36,13 +36,7 @@ const start = async () => {
 	}
 
 	// Load Models
-	const names = fs.readdirSync(path.resolve(__dirname, 'models'));
-
-	for (const name of names) {
-		require(path.resolve(__dirname, 'models', name));
-	}
-
-	sequelize.sync();
+	require('./models/associate');
 
 	// Express
 	const app = express().use(express.json());

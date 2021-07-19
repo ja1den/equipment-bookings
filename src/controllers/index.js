@@ -4,6 +4,7 @@ const express = require('express');
 // Define Routes
 const router = express.Router();
 
+router.use('/api/bookings', require('./api/bookings'));
 router.use('/api/items', require('./api/items'));
 router.use('/api/users', require('./api/users'));
 

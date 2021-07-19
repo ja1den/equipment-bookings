@@ -67,8 +67,10 @@ userForm?.addEventListener('submit', async event => {
 
 /* ----- Create ----- */
 
+// Locate Elements
 const createLink = document.querySelector('a[aria-label="Create Record"]');
 
+// Handle Click
 createLink?.addEventListener('click', event => {
 	// Prevent Default
 	event.preventDefault();

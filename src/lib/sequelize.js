@@ -10,7 +10,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 
 	define: {
 		underscored: true,
-		freezeTableName: true
+		freezeTableName: true,
+		timestamps: false
 	},
 	logging: null
 });
