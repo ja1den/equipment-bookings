@@ -45,7 +45,7 @@ itemForm?.addEventListener('submit', async event => {
 		} else {
 			// Update Record
 			response = await fetch('/api/items/' + itemForm.dataset.recordId, {
-				method: 'PUT',
+				method: 'PATCH',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(data)
 			});

@@ -24,8 +24,8 @@ block append modals
 							label.form-label.d-flex.align-items-center(for='user-password')
 								p.mb-0 Password&nbsp;
 								i.bi.bi-info-circle(style={ 'font-size': '0.75rem' }, tabindex='0', data-bs-toggle='popover', data-bs-trigger='hover focus', data-bs-content='Leave this field empty to keep the current password.')
-							input#user-password.form-control(type='password', name='password', required)
-							.invalid-feedback Please enter a password.
+							input#user-password.form-control(type='password', name='password', minlength='5', required)
+							.invalid-feedback Please enter a valid password.
 
 						.mb-2
 							.form-check.form-check-inline
@@ -60,7 +60,7 @@ block content
 					th(scope='col')
 						if user.global
 							a.link-light(href='about:blank', role='button', aria-label='Create Record', data-bs-toggle='modal', data-bs-target='#user-modal'): i.bi.bi-plus-square
-					if user.global
+					if user.global && 1 < records.length
 						th(scope='col')
 
 			tbody
@@ -72,7 +72,7 @@ block content
 						td: i.bi(class=record.hidden ? 'bi-check' : 'bi-dash')
 						td(style={ 'width': 0 }): if user.global || user.id === record.id
 							a.link-dark(href='about:blank', role='button', aria-label='Update Record', data-bs-toggle='modal', data-bs-target='#user-modal', data-record-id=record.id, data-current=(user.id === record.id)): i.bi.bi-pencil
-						if user.global 
+						if user.global && 1 < records.length
 							td(style={ 'width': 0 }): if user.id !== record.id
 								a.link-dark(href='about:blank', role='button', aria-label='Delete Record', data-record-id=record.id): i.bi.bi-trash
 
