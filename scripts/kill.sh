@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
-# Colors
-R='\033[0;31m'
-G='\033[0;32m'
-
-N='\033[0m'
+# Import
+source $(dirname "$0")/lib/colors.sh
 
 # Read Port
 : ${PORT:=${1:-3000}}

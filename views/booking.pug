@@ -1,0 +1,65 @@
+extends includes/layout.pug
+
+block content
+	h4 Create Booking
+	p.text-muted Book a set of items for a certain period.
+
+	form#booking-form(novalidate)
+		h6.mb-3 Details
+
+		.row
+			.col-lg.mb-3
+				label.form-label(for='booking-name') Full Name
+				input#booking-name.form-control(type='text', name='name', required)
+				.invalid-feedback Please enter a name.
+
+			.col-lg.mb-3
+				label.form-label(for='booking-email') Email
+				input#booking-email.form-control(type='email', name='email', required)
+				.invalid-feedback Please enter a valid email address.
+
+			.col-lg.mb-3
+				label.form-label(for='booking-user') Teacher
+				select#booking-user.form-select(type='email', name='user', required)
+					option(selected) n/a
+					each user in users
+						unless user.hidden
+							option=user.name
+
+		.row
+			.col-lg.mb-3
+				label.form-label(for='booking-start') Start Date
+				input#booking-start.form-control(type='datetime-local', name='start', min=dates[0], value=dates[1], required)
+				.invalid-feedback Please enter a valid start date.
+
+			.col-lg
+				label.form-label(for='booking-end') End Date
+				input#booking-end.form-control(type='datetime-local', name='end', min=dates[1], value=dates[2], required)
+				.invalid-feedback Please enter a valid end date.
+
+		hr
+		h6.mb-3 Items
+		
+		.row
+			.col-lg.mb-3 
+				.input-group
+					select#booking-item-0-name.form-select(type='email', name='item-0-name', required)
+					button.btn.btn-danger(type='button'): i.bi.bi-trash
+
+			.col.mb-3
+				input#booking-item-0-amount.form-control(type='number', name='item-0-amount', required)
+				.invalid-feedback Please enter an amount.
+
+			.col.mb-3
+				input.form-control(type='number', readonly)
+
+		button.btn.btn-success(type='button'): i.bi.bi-plus
+
+		hr
+
+		button.btn.btn-primary(type='submit') Submit
+
+		p.text-danger.mb-0.d-none Error!
+
+block append scripts
+	script(src='/js/booking.js')

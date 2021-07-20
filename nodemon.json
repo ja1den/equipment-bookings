@@ -4,6 +4,7 @@
 		"src"
 	],
 	"ext": "js",
+	"exec": "node -r dotenv/config src/index.js",
 	"quiet": true,
 	"events": {
 		"restart": "echo"

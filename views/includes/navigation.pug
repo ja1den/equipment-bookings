@@ -1,32 +1,29 @@
-mixin navigation
-	header.navbar.navbar-expand-md.navbar-light.d-print-none
-		.container-xl
-			button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbar-menu', aria-expanded='false')
-				span.navbar-toggler-icon
+-
+	const pageList = user !== undefined
+		? [ { name: 'Create Booking', url: '' }, { name: 'Item Details', url: 'item_details' }, { name: 'Item Catalogue', url: 'catalogue' }, { name: 'Daily Report', url: 'report' } ]
+		: [ { name: 'Create Booking', url: '' }, { name: 'Item Details', url: 'item_details' } ];
 
-			h1.navbar-brand.navbar-brand-autodark.d-none-navbar-horizontal.pe-0.pe-md-3
-				a.d-none.d-sm-block Equipment Booking System
-				a.d-sm-none Booking System
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+	.container
+		span.navbar-brand.d-none.d-sm-block Equipment Booking System
+		span.navbar-brand.d-sm-none Booking System
 
-			.navbar-nav.flex-row.order-md-last
-				.nav-item.dropdown
-					a.nav-link.d-flex.lh-1.text-reset.p-0(href='#', data-bs-toggle='dropdown', aria-label='User Menu')
-						span.avatar.avatar-sm
-							include ../../public/images/user.svg
+		button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbar-collapse', aria-controls='navbar-collapse', aria-expanded='false', aria-label='Toggle Navigation')
+			span.navbar-toggler-icon
 
-					.dropdown-menu.dropdown-menu-end
-						span.dropdown-header Display
-						a.dropdown-item(href='#', aria-label='Toggle Theme') Change Theme
+		#navbar-collapse.collapse.navbar-collapse
+			ul.navbar-nav.me-auto
+				each page, index in pageList
+					li.nav-item
+						a.nav-link(class={ 'active': current_url.split('?')[0] === '/' + page.url }, aria-current=(current_url.split('?')[0] === '/' + page.url && 'page'), href=('/' + page.url))=page.name
 
-						.dropdown-divider
-						
-						span.dropdown-header User
-						a.dropdown-item(href='#', aria-label='Sign In') Sign In
-
-			#navbar-menu.navbar-collapse.collapse
-				.d-flex.flex-column.flex-md-row.flex-fill.align-items-stretch.align-items-md-center
-					ul.navbar-nav
-						each name, index in ['Catalogue', 'Booking', 'Report', 'Item Details']
-							li.nav-item(class={'active': page === index + 1})
-								a.nav-link(href='#')
-									span.nav-link-title=name
+			ul.navbar-nav.mb-2.mb-lg-0
+				if user !== undefined
+						li.nav-item.dropdown
+							a#user-menu.nav-link.dropdown-toggle(href='#', role='button', data-bs-toggle='dropdown', aria-expanded='false')=user.name + ' '
+							ul.dropdown-menu(aria-labelledby='user-menu')
+								li: a.dropdown-item(href='/settings') Settings
+								li: hr.dropdown-divider
+								li: a#logout-link.dropdown-item(href='/api/auth/logout') Log Out
+				else
+					button.btn.btn-outline-light.mt-2.mt-lg-0(type='button', data-bs-toggle='modal' data-bs-target='#login-modal') Log In
