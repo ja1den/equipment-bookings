@@ -35,3 +35,23 @@ bookingForm?.addEventListener('submit', async event => {
 		bookingForm.showInputErrors();
 	}
 });
+
+/* ----- Init ----- */
+
+// Bookings
+const bookings = [];
+
+// Read Bookings
+const readBookings = async () => {
+	// Read Data
+	const data = Object.fromEntries(new FormData(bookingForm).entries());
+
+	// Emit Request
+	const response = await fetch('/api/bookings?start_date=' + data.start + '&end_date=' + data.end, {
+		method: 'GET'
+	});
+
+	// Log
+	console.log(await response.json());
+}
+readBookings();
