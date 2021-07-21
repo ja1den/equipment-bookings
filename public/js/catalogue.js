@@ -1,4 +1,16 @@
-/* ----- Init ----- */
+/* ----- Locate Elements ----- */
+
+// Item Form
+const itemForm = document.getElementById('item-form');
+
+// Create Link
+const createLink = document.querySelector('a[aria-label="Create Record"]');
+
+// Update and Delete
+const updateLinks = document.querySelectorAll('a[aria-label="Update Record"]');
+const deleteLinks = document.querySelectorAll('a[aria-label="Delete Record"]');
+
+/* ----- Setup ----- */
 
 // Parse Table Data
 const items = [];
@@ -11,9 +23,6 @@ document.querySelectorAll('#item-table tbody tr').forEach(element => items[eleme
 ]);
 
 /* ----- Create and Update ----- */
-
-// Locate Element
-const itemForm = document.getElementById('item-form');
 
 // Handle Submit
 itemForm?.addEventListener('submit', async event => {
@@ -64,9 +73,6 @@ itemForm?.addEventListener('submit', async event => {
 
 /* ----- Create ----- */
 
-// Locate Elements
-const createLink = document.querySelector('a[aria-label="Create Record"]');
-
 // Handle Click
 createLink?.addEventListener('click', event => {
 	// Prevent Default
@@ -80,9 +86,6 @@ createLink?.addEventListener('click', event => {
 });
 
 /* ----- Update ----- */
-
-// Locate Elements
-const updateLinks = document.querySelectorAll('a[aria-label="Update Record"]');
 
 // Handle Click
 updateLinks.forEach(element => element.addEventListener('click', event => {
@@ -106,9 +109,6 @@ updateLinks.forEach(element => element.addEventListener('click', event => {
 }));
 
 /* ----- Delete ----- */
-
-// Locate Elements
-const deleteLinks = document.querySelectorAll('a[aria-label="Delete Record"]');
 
 // Handle Click
 deleteLinks.forEach(element => element.addEventListener('click', async event => {

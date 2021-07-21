@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
 	try {
 		// Parse Dates
 		const dates = [
-			DateTime.fromSQL(req.query.start_date, { zone: 'utc' }),
-			DateTime.fromSQL(req.query.end_date, { zone: 'utc' })
+			DateTime.fromISO(req.query.start_date, { zone: 'utc' }),
+			DateTime.fromISO(req.query.end_date, { zone: 'utc' })
 		];
 
 		if (dates[0].invalidReason !== null) return res.status(400).end();

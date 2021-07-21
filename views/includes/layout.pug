@@ -12,11 +12,11 @@ html(lang='en')
 		title Equipment Booking System
 
 	body(style={ 'padding-top': '3.5rem' })
-		include ./navigation.pug
+		include navigation.pug
 
 		block modals
 			if user === undefined
-				include ./login.pug
+				include login.pug
 
 		.container.pt-4.pt-lg-5
 			block content
