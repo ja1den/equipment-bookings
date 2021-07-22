@@ -34,7 +34,7 @@ router.post('/', auth, async (req, res) => {
 });
 
 // Read
-router.get('/', auth, async (_req, res) => {
+router.get('/', async (_req, res) => {
 	try {
 		// Find All
 		const items = await sequelize.models.item.findAll();

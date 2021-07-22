@@ -10,7 +10,7 @@ const forms = document.getElementsByTagName('form');
 
 		form.classList.remove('was-validated');
 
-		form.querySelector(':scope > p').classList.add('d-none');
+		form.querySelector('.text-danger').classList.add('d-none');
 	}
 
 	// Show Input Errors
@@ -26,6 +26,6 @@ const forms = document.getElementsByTagName('form');
 		form.querySelectorAll('.invalid-feedback').forEach(element => element.classList.add('d-none'));
 		form.querySelectorAll(match).forEach(element => element.classList.add('is-invalid'));
 
-		form.querySelector(':scope > p').classList.remove('d-none');
+		form.querySelector('.text-danger').classList.remove('d-none');
 	}
 });

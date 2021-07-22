@@ -1,9 +1,11 @@
-/* ----- Login ----- */
+/* ----- Locate Elements ----- */
 
-// Locate Element
+// Login
 const loginForm = document.getElementById('login-form');
 
-// Handle Login
+/* ----- Login ----- */
+
+// Handle Submit
 loginForm?.addEventListener('submit', async event => {
 	// Prevent Default
 	event.preventDefault();
@@ -34,11 +36,8 @@ loginForm?.addEventListener('submit', async event => {
 
 /* ----- Logout ----- */
 
-// Locate Element
-const logoutLink = document.getElementById('logout-link');
-
-// Handle Logout
-logoutLink?.addEventListener('click', async event => {
+// Handle Click
+document.getElementById('logout-link')?.addEventListener('click', async event => {
 	// Prevent Default
 	event.preventDefault();
 
