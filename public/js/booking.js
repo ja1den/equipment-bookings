@@ -213,7 +213,7 @@ bookingForm?.addEventListener('submit', async event => {
 		const data = Object.fromEntries(new FormData(bookingForm).entries());
 
 		// No Items?
-		if (data['item-0-id'] === undefined) return bookingForm.showErrorMessage(':not(*)');
+		if (data['item-0-index'] === undefined) return bookingForm.showErrorMessage(':not(*)');
 
 		// Parse Data
 		const parsed = { name: data.name, email: data.email };
@@ -233,7 +233,7 @@ bookingForm?.addEventListener('submit', async event => {
 
 			if (parsed.items[index] === undefined) parsed.items[index] = [];
 
-			if (/item-\d-id/.test(key)) parsed.items[index][0] = parseInt(items[data[key]].id);
+			if (/item-\d-index/.test(key)) parsed.items[index][0] = parseInt(items[data[key]].id);
 			if (/item-\d-amount/.test(key)) parsed.items[index][1] = parseInt(data[key]);
 		});
 
