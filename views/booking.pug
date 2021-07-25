@@ -20,11 +20,11 @@ block content
 
 			.col-lg.mb-3
 				label.form-label(for='booking-user') Teacher
-				select#booking-user.form-select(type='email', name='user', required)
-					option(selected) n/a
+				select#booking-user.form-select(type='email', name='user_id', required)
+					option(value='-1', selected) n/a
 					each user in users
 						unless user.hidden
-							option=user.name
+							option(value=user.id)=user.name
 
 		.row
 			.col-lg.mb-3
@@ -42,16 +42,17 @@ block content
 
 		p#empty-text.text-muted.d-none There are no items selected.
 
-		#booking-items
+		#item-list
 			#booking-item-0.row(style={ 'display': 'none' })
 				.col-lg.mb-3
 					.input-group
 						select#booking-item-0-id.form-select(name='item-0-id', required)
 						button.btn.btn-danger(type='button'): i.bi.bi-trash
+						.invalid-feedback Please select an item.
 
 				.col.mb-3
 					input#booking-item-0-amount.form-control(type='number', name='item-0-amount', required)
-					.invalid-feedback Please enter an amount.
+					.invalid-feedback Please enter a valid amount.
 
 				.col.mb-3
 					input.form-control(type='number', readonly)

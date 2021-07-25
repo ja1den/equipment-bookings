@@ -8,7 +8,7 @@ const startDate = document.getElementById('booking-start');
 const endDate = document.getElementById('booking-end');
 
 // Item List
-const itemList = document.getElementById('booking-items');
+const itemList = document.getElementById('item-list');
 
 // Status Elements
 const loadingIcon = document.getElementById('loading-icon');
@@ -113,18 +113,46 @@ createButton?.addEventListener('click', () => {
 
 		// Update Range
 		inputs[0].setAttribute('max', max);
+
+		// Prevent Duplicates
+		preventDuplicates();
 	});
 
 	// Locate Remove
-	itemElement.getElementsByTagName('button')[0]?.addEventListener('click', () => itemElement.remove());
+	itemElement.getElementsByTagName('button')[0]?.addEventListener('click', () => itemElement.remove() ?? preventDuplicates());
 
 	// Set Inputs
 	inputs[0].value = '';
 	inputs[1].value = '';
 
-	// Increment Total
+	// Prevent Duplicates
+	preventDuplicates();
+
+	// Increment ID
 	itemTotal++;
 });
+
+// Prevent Duplicates
+const preventDuplicates = () => {
+	// Get Selected Items
+	const list = [...itemList.querySelectorAll('select').values()].map(select => select.value);
+
+	// Disable Selected
+	itemList.querySelectorAll('option').forEach(option => {
+		// Ignore Hidden
+		if (option.hidden) return;
+
+		// Get Item
+		const item = items[option.value];
+
+		// Disable?
+		if (stock[item.category][item.name] === 0 || list.includes(option.value)) {
+			if (!option.selected) option.setAttribute('disabled', '');
+		} else {
+			option.removeAttribute('disabled');
+		}
+	});
+}
 
 /* ----- Reset Form ----- */
 
@@ -144,6 +172,10 @@ const resetForm = async () => {
 
 	// Check Dates
 	if (data.start_date === '' || data.end_date === '') return;
+
+	// Parse Dates
+	data.start_date = new Date(data.start_date);
+	data.end_date = new Date(data.end_date);
 
 	// Request Bookings
 	bookings = await fetch('/api/bookings?start_date=' + data.start_date + '&end_date=' + data.end_date, {
@@ -183,8 +215,42 @@ bookingForm?.addEventListener('submit', async event => {
 		// No Items?
 		if (data['item-0-id'] === undefined) return bookingForm.showErrorMessage(':not(*)');
 
-		// Log
-		console.log(data);
+		// Parse Data
+		const parsed = { name: data.name, email: data.email };
+
+		parsed.start_date = new Date(data.start_date);
+		parsed.end_date = new Date(data.end_date);
+
+		console.log(data.user_id);
+
+		if (data.user_id !== '-1') parsed.user_id = parseInt(data.user_id);
+
+		parsed.items = [];
+
+		Object.keys(data).sort().forEach(key => {
+			const index = key.match(/item-(\d)/)?.[1] ?? null;
+			if (index === null) return;
+
+			if (parsed.items[index] === undefined) parsed.items[index] = [];
+
+			if (/item-\d-id/.test(key)) parsed.items[index][0] = parseInt(items[data[key]].id);
+			if (/item-\d-amount/.test(key)) parsed.items[index][1] = parseInt(data[key]);
+		});
+
+		parsed.items = parsed.items.filter(Boolean);
+
+		// Emit Request
+		const response = await fetch('/api/bookings', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(parsed)
+		});
+
+		// Error?
+		if (response.status !== 201) return;
+
+		// Reload
+		history.go();
 	} else {
 		// Show Input Errors
 		bookingForm.showInputErrors();

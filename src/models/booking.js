@@ -21,18 +21,18 @@ const Booking = sequelize.define('booking', {
 		type: DataTypes.STRING,
 		allowNull: false,
 		validate: {
-			isEmail: true
+			is: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 		}
 	},
 	user_id: {
 		type: DataTypes.INTEGER,
 		defaultValue: null
 	},
-	startTime: {
+	start_date: {
 		type: DataTypes.DATE,
 		allowNull: false
 	},
-	endTime: {
+	end_date: {
 		type: DataTypes.DATE,
 		allowNull: false
 	}
