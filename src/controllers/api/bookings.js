@@ -2,7 +2,6 @@
 const express = require('express');
 
 const { Op, ValidationError } = require('sequelize');
-const { DateTime } = require('luxon');
 
 // Lib
 const sequelize = require('../../lib/sequelize');
