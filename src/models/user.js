@@ -23,7 +23,7 @@ const User = sequelize.define('user', {
 		allowNull: false,
 		unique: true,
 		validate: {
-			isEmail: true
+			is: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 		}
 	},
 	password: {
