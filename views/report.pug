@@ -1,5 +1,58 @@
 extends includes/layout.pug
 
 block content
+	
+	
+	mixin link(disabled)
+		a(class={ 'disabled': disabled }, tabindex=disabled && '-1', aria-disabled=disabled && 'true')&attributes(attributes): block
+	
+
+
 	h4 Daily Report
-	p.text-muted This page is currently under development.
+	p.text-muted A summary of active bookings per day 
+
+	div(style="width:25%")
+		form(action="/api/report",method="GET")
+				input(name="date", type="datetime-local",value=read_date).form-control
+				button(type="submit",value="submit",style="margin-top:10px;margin-bottom:10px").btn.btn-primary Search
+
+	
+	.table-responsive
+		table#item-table.table.table-bordered
+			thead.table-dark
+				tr
+					th(scope='col') Name
+					th(scope='col') Start Time
+					th(scope='col') End Time
+					th(scope='col') Item Name
+					th(scope='col') Quantity
+					th(scope='col') Cancel
+					
+
+			tbody(style="vertical-align : middle;text-align:center;").vertical-align
+				
+				each record, index in records
+					- let item_length = record.booking_items.length 
+					- let start_date = new Date(record.start_date).toDateString();
+					- let end_date = new Date(record.end_date).toDateString();
+					tr
+						td(rowspan=item_length)=record.name
+						td(rowspan=item_length)=start_date
+						td(rowspan=item_length)=end_date
+						td=record.booking_items[0].item.name
+						td=record.booking_items[0].quantity
+						td(rowspan=item_length) 
+							form(action="/api/report",method="POST")
+								button(name="booking_id", type="submit", value=record.id, onclick="return confirm('Are you sure?')").btn.btn-warning Cancel
+
+					
+					if (item_length > 1)
+						each booking_item, index in record.booking_items 
+							unless (index == 0)
+								tr
+									td=booking_item.item.name
+									td=booking_item.quantity
+
+
+
+				
