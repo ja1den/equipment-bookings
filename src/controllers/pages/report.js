@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
         
     } else {
         console.log("Check")
-        read_date = req.query.date
+        read_date = moment(req.query.date).format('YYYY-MM-DDThh:mm')
         start_date = moment(read_date).startOf('day')
         end_date = moment(read_date).endOf('day')
     }
