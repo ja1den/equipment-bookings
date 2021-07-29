@@ -3,21 +3,26 @@ const sequelize = require('../../lib/sequelize');
 const { Op } = require('sequelize');
 const moment = require('moment')
 
+
+
+// Main
 module.exports = async (req, res) => {
+    
 	// Require login for page access
 	if (!req.isAuthenticated()) return res.redirect('/');
 
-    // Parse start and end dates
+    // Initial declerations
     let start_date
     let end_date
     let read_date
+
+    // Format start and end dates
     if (req.query.date == undefined){
         start_date = moment().startOf('day')
         end_date = moment().endOf('day')
         read_date = moment(start_date).format('YYYY-MM-DDThh:mm')
         
     } else {
-        console.log("Check")
         read_date = moment(req.query.date).format('YYYY-MM-DDThh:mm')
         start_date = moment(read_date).startOf('day')
         end_date = moment(read_date).endOf('day')
@@ -43,12 +48,14 @@ module.exports = async (req, res) => {
                 nested: true
             }]
         }]
-    }).catch((e) => {
+    })
+    
+    // Handle errors
+    .catch((e) => {
         console.log(e)
         res.status(500).send()
 
     });
-
     if (records === undefined) return;
 
 

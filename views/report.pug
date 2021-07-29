@@ -33,8 +33,8 @@ block content
 				
 				each record, index in records
 					- let item_length = record.booking_items.length 
-					- let start_date = new Date(record.start_date).toUTCString();
-					- let end_date = new Date(record.end_date).toUTCString();
+					- let start_date = new Date(record.start_date).toLocaleString('en-AU', { dateStyle: 'medium', timeStyle: 'short'});
+					- let end_date = new Date(record.end_date).toLocaleString('en-AU', {  dateStyle: 'medium', timeStyle: 'short' });
 					tr
 						td(rowspan=item_length)=record.name
 						td(rowspan=item_length)=start_date

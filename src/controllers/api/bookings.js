@@ -5,6 +5,7 @@ const { Op, ValidationError } = require('sequelize');
 
 // Lib
 const sequelize = require('../../lib/sequelize');
+const mail = require('../../lib/mail');
 
 // Define Routes
 const router = express.Router();
@@ -19,13 +20,29 @@ router.post('/', async (req, res) => {
 		req.body.start_date = new Date(req.body.start_date);
 		req.body.end_date = new Date(req.body.end_date);
 
-		// Create Booking
+        // Create Booking
 		const { id } = await sequelize.models.booking.create(req.body);
 
 		// Create Booking Items
 		await Promise.all(req.body.items.map(item => sequelize.models.booking_item.create({
 			booking_id: id, item_id: item[0], quantity: item[1]
 		})));
+
+        // Send Mail
+        if(req.body.user_id === undefined){req.body.user_id = "-1"}
+        const teacherInfo = await sequelize.models.user.findAll({
+            where:{
+                [Op.or]: [
+                    {id : req.body.user_id},
+                    {global: true}
+                ]
+            }
+        })
+        mail.scheduleMail(req.body.start_date, req.body.email, req.body.name)
+        for(let i=0;i<teacherInfo.length;i++){
+            mail.notifyUsers(req.body.start_date, teacherInfo[i].email, req.body.name, teacherInfo[i].name)
+        }
+        
 
 		// Respond
 		res.status(201).send(id.toString());

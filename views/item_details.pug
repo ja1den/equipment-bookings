@@ -30,8 +30,8 @@ block content
 			tbody(style="vertical-align : middle;text-align:center;").vertical-align
 				if (records != "-1")
 					each record, index in records
-						- let start_date = new Date(record.booking.start_date).toUTCString()
-						- let end_date = new Date(record.booking.end_date).toUTCString()
+						- let start_date = new Date(record.booking.start_date).toLocaleString('en-AU', { dateStyle: 'medium', timeStyle: 'short'});
+						- let end_date = new Date(record.booking.end_date).toLocaleString('en-AU', { dateStyle: 'medium', timeStyle: 'short'});
 						tr
 							td=record.booking.name
 							td=start_date

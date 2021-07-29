@@ -51,6 +51,9 @@ const start = async () => {
 		saveUninitialized: false
 	}));
 
+    // Load Mail
+    require('./lib/mail.js').rescheduleAll()
+
 	// Passport
 	app.use(passport.initialize());
 	app.use(passport.session());

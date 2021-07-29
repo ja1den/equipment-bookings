@@ -5,18 +5,17 @@ const sequelize = require('../../lib/sequelize');
 const auth = require('../../middleware/auth');
 
 
-// Post Handling
+// Post handling - destroy record by id
 router.post('/', auth, async (req, res) => {
-    console.log(req.body.booking_id)
-
     sequelize.models.booking.destroy({
         where:{
             id: req.body.booking_id
         }
     })
-
    res.redirect("/report")
 });
+
+// Get handling - foward date via query
 router.get('/', auth, async (req, res) => {
     console.log(req.query.date)
     res.redirect("/report?date=" + req.query.date)
