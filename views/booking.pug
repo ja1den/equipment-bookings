@@ -2,7 +2,7 @@ extends includes/layout.pug
 
 block content
 	h4 Create Booking
-	p.text-muted Book a set of items for a certain period.
+	p.text-muted Book a group of items for a certain period.
 
 	form#booking-form(novalidate)
 		h6.mb-3 Details
@@ -19,7 +19,7 @@ block content
 				.invalid-feedback Please enter a valid email address.
 
 			.col-lg.mb-3
-				label.form-label(for='booking-user') Teacher
+				label.form-label(for='booking-user') Teacher #[small.text-muted (optional)]
 				select#booking-user.form-select(type='email', name='user_id', required)
 					option(value='-1', selected) n/a
 					each user in users
@@ -32,7 +32,7 @@ block content
 				input#booking-start.form-control(type='datetime-local', name='start_date', min=dates[0], value=dates[1], required)
 				.invalid-feedback Please enter a valid start date.
 
-			.col-lg
+			.col-lg.mb-3
 				label.form-label(for='booking-end') End Date
 				input#booking-end.form-control(type='datetime-local', name='end_date', min=dates[1], value=dates[2], required)
 				.invalid-feedback Please enter a valid end date.
@@ -47,7 +47,8 @@ block content
 				.col-lg.mb-3
 					.input-group
 						select#booking-item-0-index.form-select(name='item-0-index', required)
-						button.btn.btn-danger(type='button'): i.bi.bi-trash
+						button.btn.btn-danger.rounded-end(type='button')
+							i.bi.bi-trash
 						.invalid-feedback Please select an item.
 
 				.col.mb-3
@@ -58,12 +59,17 @@ block content
 					input.form-control(type='number', readonly)
 
 		#loading-icon.d-flex.justify-content-center
-			.spinner-border.spinner-border-sm.mb-3(role='status')
+			.spinner-border.spinner-border-sm(role='status')
 				span.visually-hidden Loading...
 
 		button#create-button.btn.btn-success.d-none(type='button'): i.bi.bi-plus
 
 		hr
+
+		.row
+			.col-lg.mb-3
+				label.form-label(for='booking-comment') Comment #[small.text-muted (optional)]
+				textarea#booking-comment.form-control(name='comment', maxlength='255')
 
 		p.text-danger.d-none Booking cannot be empty.
 

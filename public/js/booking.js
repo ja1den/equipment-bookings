@@ -56,10 +56,7 @@ endDate?.addEventListener('change', async () => await resetForm());
 // Handle Click
 createButton?.addEventListener('click', () => {
 	// First Entry?
-	if (document.getElementById('booking-item-0') === null) {
-		// Reset Total
-		itemTotal = 0;
-
+	if (itemList.querySelector('select') === null) {
 		// Hide Empty Text
 		emptyText.classList.add('d-none');
 	}
@@ -97,8 +94,6 @@ createButton?.addEventListener('click', () => {
 
 		option.value = index;
 
-		option.disabled = stock[item.category][item.name] === 0;
-
 		optgroup.appendChild(option);
 	});
 
@@ -119,17 +114,29 @@ createButton?.addEventListener('click', () => {
 	});
 
 	// Locate Remove
-	itemElement.getElementsByTagName('button')[0]?.addEventListener('click', () => itemElement.remove() ?? preventDuplicates());
+	itemElement.getElementsByTagName('button')[0]?.addEventListener('click', () => {
+		// Remove Element
+		itemElement.remove();
+
+		// Empty?
+		if (itemList.querySelector('select') === null) {
+			// Show Empty Text
+			emptyText.classList.remove('d-none');
+		}
+
+		// Prevent Duplicates
+		preventDuplicates();
+	});
 
 	// Set Inputs
 	inputs[0].value = '';
 	inputs[1].value = '';
 
+	// Update Total
+	itemTotal++;
+
 	// Prevent Duplicates
 	preventDuplicates();
-
-	// Increment ID
-	itemTotal++;
 });
 
 // Prevent Duplicates
@@ -146,7 +153,7 @@ const preventDuplicates = () => {
 		const item = items[option.value];
 
 		// Disable?
-		if (stock[item.category][item.name] === 0 || list.includes(option.value)) {
+		if (stock[item.category][item.name] <= 0 || list.includes(option.value)) {
 			if (!option.selected) option.setAttribute('disabled', '');
 		} else {
 			option.removeAttribute('disabled');
@@ -178,7 +185,7 @@ const resetForm = async () => {
 	data.end_date = new Date(data.end_date);
 
 	// Request Bookings
-	bookings = await fetch('/api/bookings?start_date=' + data.start_date + '&end_date=' + data.end_date, {
+	bookings = await fetch('/api/bookings?start_date=' + data.start_date.toJSON() + '&end_date=' + data.end_date.toJSON(), {
 		method: 'GET'
 	}).then(response => response.json());
 
@@ -212,16 +219,11 @@ bookingForm?.addEventListener('submit', async event => {
 		// Read Data
 		const data = Object.fromEntries(new FormData(bookingForm).entries());
 
-		// No Items?
-		if (data['item-0-index'] === undefined) return bookingForm.showErrorMessage(':not(*)');
-
 		// Parse Data
-		const parsed = { name: data.name, email: data.email };
+		const parsed = { name: data.name, email: data.email, comment: data.comment };
 
 		parsed.start_date = new Date(data.start_date);
 		parsed.end_date = new Date(data.end_date);
-
-		console.log(data.user_id);
 
 		if (data.user_id !== '-1') parsed.user_id = parseInt(data.user_id);
 
@@ -238,6 +240,9 @@ bookingForm?.addEventListener('submit', async event => {
 		});
 
 		parsed.items = parsed.items.filter(Boolean);
+
+		// No Items?
+		if (parsed.items.length === 0) return bookingForm.showErrorMessage(':not(*)');
 
 		// Emit Request
 		const response = await fetch('/api/bookings', {

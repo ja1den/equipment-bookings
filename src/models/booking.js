@@ -28,6 +28,10 @@ const Booking = sequelize.define('booking', {
 		type: DataTypes.INTEGER,
 		defaultValue: null
 	},
+	comment: {
+		type: DataTypes.STRING,
+		defaultValue: null
+	},
 	start_date: {
 		type: DataTypes.DATE,
 		allowNull: false
