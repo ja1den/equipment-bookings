@@ -27,7 +27,7 @@ block append modals
 							input#user-password.form-control(type='password', name='password', minlength='5', required)
 							.invalid-feedback Please enter a valid password.
 
-						.mb-2
+						.mb-3
 							.form-check.form-check-inline
 									input#user-global.form-check-input(type='checkbox' name='global')
 									label.form-check-label(for='user-global') Global
@@ -46,8 +46,8 @@ block content
 	mixin link(disabled)
 		a(class={ 'disabled': disabled }, tabindex=disabled && '-1', aria-disabled=disabled && 'true')&attributes(attributes): block
 
-	h4 User Management
-	p.text-muted Create and manage user accounts.
+	h4 Settings
+	p.text-muted Manage user accounts.
 
 	.table-responsive
 		table#user-table.table.table-striped

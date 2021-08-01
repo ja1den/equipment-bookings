@@ -27,7 +27,6 @@
 		"long-timeout": "^0.1.1",
 		"luxon": "^2.0.1",
 		"minimist": "^1.2.5",
-		"moment": "^2.29.1",
 		"mysql2": "^2.2.5",
 		"nodemailer": "^6.6.3",
 		"passport": "^0.4.1",

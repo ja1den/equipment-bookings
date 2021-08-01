@@ -1,8 +1,6 @@
 // Import
-const path = require('path');
-const fs = require('fs');
-
 const minimist = require('minimist');
+const path = require('path');
 
 const express = require('express');
 const session = require('express-session');
@@ -51,8 +49,8 @@ const start = async () => {
 		saveUninitialized: false
 	}));
 
-    // Load Mail
-    require('./lib/mail.js').rescheduleAll()
+	// Load Mail
+	require('./lib/mail.js').rescheduleAll();
 
 	// Passport
 	app.use(passport.initialize());
@@ -63,10 +61,10 @@ const start = async () => {
 		res.locals.current_url = req.url;
 		next();
 	});
-	app.use(express.urlencoded({extended: true}));
-	app.use(express.json())
 
-	
+	app.use(express.urlencoded({ extended: true }));
+	app.use(express.json());
+
 	app.set('view engine', 'pug');
 
 	// Load Routes
@@ -85,8 +83,6 @@ const start = async () => {
 	});
 
 	// Handle Exit
-	['SIGINT', 'SIGTERM', 'SIGUSR2'].map(signal => {
-		process.addListener(signal, () => process.exit());
-	});
+	['SIGINT', 'SIGTERM', 'SIGUSR2'].map(signal => process.addListener(signal, () => process.exit()));
 };
 start();

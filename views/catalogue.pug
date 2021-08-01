@@ -29,7 +29,7 @@ block append modals
 							input#item-stock.form-control(type='number', name='stock', required)
 							.invalid-feedback Please enter the amount of stock.
 
-						.form-check.mb-2
+						.form-check.mb-3
 							input#item-hidden.form-check-input(type='checkbox' name='hidden')
 							label.form-check-label(for='item-hidden') Hidden
 
@@ -44,7 +44,7 @@ block content
 		a(class={ 'disabled': disabled }, tabindex=disabled && '-1', aria-disabled=disabled && 'true')&attributes(attributes): block
 
 	h4 Item Catalogue
-	p.text-muted Create and manage catalogue items.
+	p.text-muted Manage the item catalogue.
 
 	.table-responsive
 		table#item-table.table.table-striped

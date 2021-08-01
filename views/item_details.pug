@@ -1,44 +1,42 @@
 extends includes/layout.pug
 
 block content
-	
 	h4 Item Details
-	p.text-muted See item bookings and avaliability
+	p.text-muted Preview an item's avaliability.
 
+	form(action='/item_details', method='GET')
+		.row
+			.col.col-lg-6.mb-3
+				.input-group
+					select.form-select(name='item_id')
+						each item in items
+							option(value=item.id, selected=item.id == item_id)=item.name
 
-	div(style="width:25%")
-		form(action="/item_details",method="GET")
-				select#item-list.form-select(name='item_id', required)
-					each item in items
-						option(value=item.id)=item.name
-				button(type="submit",value="submit",style="margin-top:10px;margin-bottom:10px").btn.btn-primary Search
+					button.btn.btn-primary(type='submit') Search
 
 	.table-responsive
-		table#item-table.table.table-bordered
+		table.table.table-striped
 			thead.table-dark
 				tr
-					th Name
-					th Start Time
-					th End Time
-					th Quantity
-					if (isAuth)
-						th View Booking
+					if user !== undefined
+						th(scope='col') Name
+					th(scope='col') Start Time
+					th(scope='col') End Time
+					th(scope='col') Quantity
+					if user !== undefined
+						th(scope='col')
 
+			tbody
+				each record in records
+					- const start_date = record.booking.start_date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+					- const end_date = record.booking.end_date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
 
-					
-
-			tbody(style="vertical-align : middle;text-align:center;").vertical-align
-				if (records != "-1")
-					each record, index in records
-						- let start_date = new Date(record.booking.start_date).toLocaleString('en-AU', { dateStyle: 'medium', timeStyle: 'short'});
-						- let end_date = new Date(record.booking.end_date).toLocaleString('en-AU', { dateStyle: 'medium', timeStyle: 'short'});
-						tr
+					tr
+						if user !== undefined
 							td=record.booking.name
-							td=start_date
-							td=end_date
-							td=record.quantity
-								if (isAuth)
-									td 
-										form(action="/report",method="GET")
-											button(name="date", type="submit", value=record.booking.start_date).btn.btn-secondary Booking
-					
+						td=start_date
+						td=end_date
+						td=record.quantity
+						if user !== undefined
+							td(style={ 'width': 0 })
+								a.link-dark(href='/report?date=' + record.booking.start_date.toLocaleDateString(), role='button', aria-label='Preview Booking', data-record-id=record.id): i.bi.bi-box-arrow-up-right

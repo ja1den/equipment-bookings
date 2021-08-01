@@ -1,42 +1,36 @@
 // Imports
+const { DateTime } = require('luxon');
+
+// Lib
 const sequelize = require('../../lib/sequelize');
-
-
 
 // Export Route
 module.exports = async (req, res) => {
+	try {
+		// Read Items
+		const items = await sequelize.models.item.findAll();
 
-    // Init
-    let records;
-    let isAuth = req.isAuthenticated();
+		if (req.query.item_id === undefined) {
+			return res.redirect('?item_id=' + items[0].id);
+		}
 
-    // Fetch item list
-    let items = await sequelize.models.item.findAll({
-    })
-    if (req.query.item_id == undefined){
-        req.query.item_id = items[0].id
-    }
+		// Read Booking Items
+		let records = await sequelize.models.booking_item.findAll({
+			where: {
+				item_id: req.query.item_id
+			},
+			include: sequelize.models.booking
+		});
 
-    // Fetch booking item list
-    records = await sequelize.models.booking_item.findAll({
-        where: {
-            item_id: req.query.item_id
-        },
-        required:true,
-        include:[{
-            model: sequelize.models.booking,
-            required: true,
-            nested: true,
-        }]
-    })
-    
-    // Handle errors
-    .catch((e) => {
-        console.log(e)
-        res.status(500).send()
-    });
-    if (records === undefined) return;
+		records = records.map(record => record.get({ plain: true }));
 
-	// Render view
-    res.render('item_details', { user: req.user, items, records, isAuth });
+		// Render HTML
+		res.render('item_details', { user: req.user, items, item_id: req.query.item_id, records });
+	} catch (e) {
+		// Log
+		console.error(e);
+
+		// Respond
+		res.status(500).end();
+	}
 }

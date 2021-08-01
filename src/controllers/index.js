@@ -4,12 +4,10 @@ const express = require('express');
 // Define Routes
 const router = express.Router();
 
+router.use('/api/auth', require('./api/auth'));
 router.use('/api/bookings', require('./api/bookings'));
 router.use('/api/items', require('./api/items'));
 router.use('/api/users', require('./api/users'));
-router.use('/api/report', require('./api/report'));
-
-router.use('/api/auth', require('./api/auth'));
 
 router.get('/catalogue', require('./pages/catalogue'));
 router.get('/item_details', require('./pages/item_details'));

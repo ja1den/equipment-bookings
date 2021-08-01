@@ -1,24 +1,18 @@
 extends includes/layout.pug
 
 block content
-	
-	
-	mixin link(disabled)
-		a(class={ 'disabled': disabled }, tabindex=disabled && '-1', aria-disabled=disabled && 'true')&attributes(attributes): block
-	
-
-
 	h4 Daily Report
-	p.text-muted A summary of active bookings per day 
+	p.text-muted Preview bookings for a specific day.
 
-	div(style="width:25%")
-		form(action="/api/report",method="GET")
-				input(name="date", type="datetime-local",value=read_date).form-control
-				button(type="submit",value="submit",style="margin-top:10px;margin-bottom:10px").btn.btn-primary Search
+	form(action='/report', method='GET')
+		.row
+			.col.col-lg-6.mb-3
+				.input-group
+					input(name='date', type='date', value=date).form-control
+					button.btn.btn-primary(type='submit') Search
 
-	
 	.table-responsive
-		table#item-table.table.table-bordered
+		table.table.table-bordered
 			thead.table-dark
 				tr
 					th(scope='col') Name
@@ -26,33 +20,26 @@ block content
 					th(scope='col') End Time
 					th(scope='col') Item Name
 					th(scope='col') Quantity
-					th(scope='col') Cancel
-					
+					th(scope='col')
 
-			tbody(style="vertical-align : middle;text-align:center;").vertical-align
-				
-				each record, index in records
-					- let item_length = record.booking_items.length 
-					- let start_date = new Date(record.start_date).toLocaleString('en-AU', { dateStyle: 'medium', timeStyle: 'short'});
-					- let end_date = new Date(record.end_date).toLocaleString('en-AU', {  dateStyle: 'medium', timeStyle: 'short' });
-					tr
-						td(rowspan=item_length)=record.name
-						td(rowspan=item_length)=start_date
-						td(rowspan=item_length)=end_date
-						td=record.booking_items[0].item.name
-						td=record.booking_items[0].quantity
-						td(rowspan=item_length) 
-							form(action="/api/report",method="POST")
-								button(name="booking_id", type="submit", value=record.id, onclick="return confirm('Are you sure?')").btn.btn-warning Cancel
+			tbody
+				each booking in bookings
+					- const start_date = booking.start_date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+					- const end_date = booking.end_date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
 
-					
-					if (item_length > 1)
-						each booking_item, index in record.booking_items 
-							unless (index == 0)
-								tr
-									td=booking_item.item.name
-									td=booking_item.quantity
+					each item, index in booking.items
+						tr.align-middle
+							if index === 0
+								td(rowspan=booking.items.length)=booking.name
+								td(rowspan=booking.items.length)=start_date
+								td(rowspan=booking.items.length)=end_date
 
+							td=item.name
+							td=item.booking_item.quantity
 
+							if index === 0
+								td(style={ 'width': 0 }, rowspan=booking.items.length)
+									a.link-dark(href='about:blank', role='button', aria-label='Delete Booking', data-record-id=booking.id): i.bi.bi-trash
 
-				
+block append scripts
+	script(src='/js/report.js')

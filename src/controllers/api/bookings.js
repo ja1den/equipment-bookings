@@ -5,6 +5,8 @@ const { Op, ValidationError } = require('sequelize');
 
 // Lib
 const sequelize = require('../../lib/sequelize');
+const auth = require('../../middleware/auth');
+
 const mail = require('../../lib/mail');
 
 // Define Routes
@@ -20,7 +22,7 @@ router.post('/', async (req, res) => {
 		req.body.start_date = new Date(req.body.start_date);
 		req.body.end_date = new Date(req.body.end_date);
 
-        // Create Booking
+		// Create Booking
 		const { id } = await sequelize.models.booking.create(req.body);
 
 		// Create Booking Items
@@ -28,21 +30,23 @@ router.post('/', async (req, res) => {
 			booking_id: id, item_id: item[0], quantity: item[1]
 		})));
 
-        // Send Mail
-        if(req.body.user_id === undefined){req.body.user_id = "-1"}
-        const teacherInfo = await sequelize.models.user.findAll({
-            where:{
-                [Op.or]: [
-                    {id : req.body.user_id},
-                    {global: true}
-                ]
-            }
-        })
-        mail.scheduleMail(req.body.start_date, req.body.email, req.body.name)
-        for(let i=0;i<teacherInfo.length;i++){
-            mail.notifyUsers(req.body.start_date, teacherInfo[i].email, req.body.name, teacherInfo[i].name)
-        }
-        
+		// Send Mail
+		if (req.body.user_id === undefined) req.body.user_id = '-1';
+
+		const teacherInfo = await sequelize.models.user.findAll({
+			where: {
+				[Op.or]: [
+					{ id: req.body.user_id },
+					{ global: true }
+				]
+			}
+		});
+
+		mail.scheduleMail(req.body.start_date, req.body.email, req.body.name);
+
+		for (let i = 0; i < teacherInfo.length; i++) {
+			mail.notifyUsers(req.body.start_date, teacherInfo[i].email, req.body.name, teacherInfo[i].name);
+		}
 
 		// Respond
 		res.status(201).send(id.toString());
@@ -111,6 +115,23 @@ router.get('/', async (req, res) => {
 		// Validation
 		if (e instanceof RangeError) return res.status(400).end();
 
+		// Log
+		console.error(e);
+
+		// Respond
+		res.status(500).end();
+	}
+});
+
+// Delete
+router.delete('/:id', auth, async (req, res) => {
+	try {
+		// Delete
+		await sequelize.models.booking.destroy({ where: { id: req.params.id } });
+
+		// Respond
+		res.status(204).end();
+	} catch (e) {
 		// Log
 		console.error(e);
 

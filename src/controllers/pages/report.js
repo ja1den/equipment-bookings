@@ -1,64 +1,55 @@
-// Export Route
-const sequelize = require('../../lib/sequelize');
+// Import
+const { DateTime } = require('luxon');
+
 const { Op } = require('sequelize');
-const moment = require('moment')
 
-
+// Lib
+const sequelize = require('../../lib/sequelize');
 
 // Main
 module.exports = async (req, res) => {
-    
-	// Require login for page access
-	if (!req.isAuthenticated()) return res.redirect('/');
+	try {
+		// Require Login
+		if (!req.isAuthenticated()) return res.redirect('/');
 
-    // Initial declerations
-    let start_date
-    let end_date
-    let read_date
+		// Default Date
+		if (req.query.date === undefined) {
+			return res.redirect('?date=' + DateTime.now().toISODate());
+		}
 
-    // Format start and end dates
-    if (req.query.date == undefined){
-        start_date = moment().startOf('day')
-        end_date = moment().endOf('day')
-        read_date = moment(start_date).format('YYYY-MM-DDThh:mm')
-        
-    } else {
-        read_date = moment(req.query.date).format('YYYY-MM-DDThh:mm')
-        start_date = moment(read_date).startOf('day')
-        end_date = moment(read_date).endOf('day')
-    }
+		// Parse Date
+		req.query.date = new Date(req.query.date);
 
-    // Fetch records
-    let records = await sequelize.models.booking.findAll({
-        where: {
-            start_date: {
-                [Op.lt]: end_date
-            },
-            end_date: {
-                [Op.gt]: start_date
-            }
-        },
-        include:[{
-            model: sequelize.models.booking_item,
-            required: true,
-            nested: true,
-            include: [{
-                model: sequelize.models.item,
-                required: true,
-                nested: true
-            }]
-        }]
-    })
-    
-    // Handle errors
-    .catch((e) => {
-        console.log(e)
-        res.status(500).send()
+		// Calculate Dates
+		const dates = [
+			DateTime.fromJSDate(req.query.date).toISODate(),
+			DateTime.fromJSDate(req.query.date).set({ hours: 0, minute: 0, second: 0, millisecond: 0 }).toJSDate(),
+			DateTime.fromJSDate(req.query.date).set({ hour: 24, minute: 0, second: 0, millisecond: 0 }).toJSDate()
+		];
 
-    });
-    if (records === undefined) return;
+		// Read Bookings
+		const bookings = await sequelize.models.booking.findAll({
+			where: {
+				start_date: {
+					[Op.lt]: dates[2]
+				},
+				end_date: {
+					[Op.gt]: dates[1]
+				}
+			},
+			include: [
+				sequelize.models.user,
+				sequelize.models.item
+			]
+		});
 
+		// Render HTML
+		res.render('report', { user: req.user, date: dates[0], bookings });
+	} catch (e) {
+		// Log
+		console.error(e);
 
-	// Render view
-	res.render('report', { user: req.user, records, read_date});
+		// Respond
+		res.status(500).end();
+	}
 }
