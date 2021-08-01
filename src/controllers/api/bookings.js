@@ -31,12 +31,10 @@ router.post('/', async (req, res) => {
 		})));
 
 		// Send Mail
-		if (req.body.user_id === undefined) req.body.user_id = '-1';
-
-		const teacherInfo = await sequelize.models.user.findAll({
+		const users = await sequelize.models.user.findAll({
 			where: {
 				[Op.or]: [
-					{ id: req.body.user_id },
+					{ id: req.body.user_id ?? '-1' },
 					{ global: true }
 				]
 			}
@@ -44,8 +42,8 @@ router.post('/', async (req, res) => {
 
 		mail.scheduleMail(req.body.start_date, req.body.email, req.body.name);
 
-		for (let i = 0; i < teacherInfo.length; i++) {
-			mail.notifyUsers(req.body.start_date, teacherInfo[i].email, req.body.name, teacherInfo[i].name);
+		for (const user of users) {
+			mail.notifyUsers(req.body.start_date, user.email, req.body.name, user.name);
 		}
 
 		// Respond
