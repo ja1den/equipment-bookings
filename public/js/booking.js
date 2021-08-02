@@ -20,7 +20,7 @@ const createButton = document.getElementById('create-button');
 /* ----- Global ----- */
 
 // Item Template
-const itemTemplate = document.getElementById('booking-item-0').outerHTML.replace('style="display:none;"', '');
+const itemTemplate = document.getElementById('booking-item-%').outerHTML.replace('style="display:none;"', '');
 
 // Item Total
 let itemTotal = 0;
@@ -62,7 +62,7 @@ createButton?.addEventListener('click', () => {
 	}
 
 	// Insert Item
-	itemList.insertAdjacentHTML('beforeend', itemTemplate.replace(/0/g, itemTotal));
+	itemList.insertAdjacentHTML('beforeend', itemTemplate.replace(/%/g, itemTotal));
 
 	// Get Item
 	const itemElement = document.getElementById('booking-item-' + itemTotal);
@@ -103,8 +103,8 @@ createButton?.addEventListener('click', () => {
 		const max = stock[items[select.value].category][items[select.value].name];
 
 		// Update Inputs
-		inputs[0].value = 1;
-		inputs[1].value = max;
+		inputs[0].value = 0;
+		inputs[1].value = Math.max(0, max);
 
 		// Update Range
 		inputs[0].setAttribute('max', max);
@@ -149,15 +149,8 @@ const preventDuplicates = () => {
 		// Ignore Hidden
 		if (option.hidden) return;
 
-		// Get Item
-		const item = items[option.value];
-
 		// Disable?
-		if (stock[item.category][item.name] <= 0 || list.includes(option.value)) {
-			if (!option.selected) option.setAttribute('disabled', '');
-		} else {
-			option.removeAttribute('disabled');
-		}
+		option.toggleAttribute('disabled', list.includes(option.value) && !option.selected);
 	});
 }
 
@@ -241,7 +234,7 @@ bookingForm?.addEventListener('submit', async event => {
 			if (/item-\d-amount/.test(key)) parsed.items[index][1] = parseInt(data[key]);
 		});
 
-		parsed.items = parsed.items.filter(Boolean);
+		parsed.items = parsed.items.filter(item => item && item[1] !== 0);
 
 		// No Items?
 		if (parsed.items.length === 0) return bookingForm.showErrorMessage(':not(*)');

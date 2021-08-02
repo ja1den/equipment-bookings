@@ -43,16 +43,16 @@ block content
 		p#empty-text.text-muted.d-none There are no items selected.
 
 		#item-list
-			#booking-item-0.row(style={ 'display': 'none' })
+			.row(id='booking-item-%', style={ 'display': 'none' })
 				.col-lg.mb-3
 					.input-group
-						select#booking-item-0-index.form-select(name='item-0-index', required)
+						select.form-select(id='booking-item-%-index', name='item-%-index', required)
 						button.btn.btn-danger.rounded-end(type='button')
 							i.bi.bi-trash
 						.invalid-feedback Please select an item.
 
 				.col.mb-3
-					input#booking-item-0-amount.form-control(type='number', name='item-0-amount', required)
+					input.form-control(id='booking-item-%-amount', type='number', name='item-%-amount', min='0', required)
 					.invalid-feedback Please enter a valid amount.
 
 				.col.mb-3
