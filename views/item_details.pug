@@ -9,8 +9,10 @@ block content
 			.col.col-lg-6.mb-3
 				.input-group
 					select.form-select(name='item_id')
-						each item in items
-							option(value=item.id, selected=item.id == item_id)=item.name
+						each category in categories
+							optgroup(label=category)
+								each item in items.filter(item => item.category === category)
+									option(value=item.id, selected=item.id == item_id)=item.name
 
 					button.btn.btn-primary(type='submit') Search
 
@@ -39,4 +41,4 @@ block content
 						td=record.quantity
 						if user !== undefined
 							td(style={ 'width': 0 })
-								a.link-dark(href='/report?date=' + record.booking.start_date.toLocaleDateString(), role='button', aria-label='Preview Booking', data-record-id=record.id): i.bi.bi-box-arrow-up-right
+								a.link-dark(href='/report?date=' + record.booking.linkDate, target='_blank', role='button', aria-label='Preview Booking', data-record-id=record.id): i.bi.bi-box-arrow-up-right

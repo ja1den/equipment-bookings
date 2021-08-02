@@ -1,4 +1,4 @@
-// Imports
+// Import
 const { DateTime } = require('luxon');
 
 // Lib
@@ -8,7 +8,7 @@ const sequelize = require('../../lib/sequelize');
 module.exports = async (req, res) => {
 	try {
 		// Read Items
-		const items = await sequelize.models.item.findAll();
+		const items = await sequelize.models.item.findAll({ order: [['category'], ['name']] });
 
 		if (req.query.item_id === undefined) {
 			return res.redirect('?item_id=' + items[0].id);
@@ -19,13 +19,22 @@ module.exports = async (req, res) => {
 			where: {
 				item_id: req.query.item_id
 			},
-			include: sequelize.models.booking
+			include: [
+				sequelize.models.booking,
+				sequelize.models.item
+			]
 		});
 
 		records = records.map(record => record.get({ plain: true }));
 
+		// Determine Categories
+		const categories = [...new Set(items.map(item => item.category))];
+
+		// Format Dates
+		records.forEach(record => record.booking.linkDate = DateTime.fromJSDate(record.booking.start_date).toISO({ suppressSeconds: true }).split('T')[0]);
+
 		// Render HTML
-		res.render('item_details', { user: req.user, items, item_id: req.query.item_id, records });
+		res.render('item_details', { user: req.user, categories, items, item_id: req.query.item_id, records });
 	} catch (e) {
 		// Log
 		console.error(e);

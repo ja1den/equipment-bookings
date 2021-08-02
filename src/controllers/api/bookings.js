@@ -46,6 +46,8 @@ router.post('/', async (req, res) => {
 			mail.notifyUsers(req.body.start_date, user.email, req.body.name, user.name);
 		}
 
+		mail.notifyUsers(req.body.start_date, req.body.email, req.body.name, req.body.name);
+
 		// Respond
 		res.status(201).send(id.toString());
 	} catch (e) {

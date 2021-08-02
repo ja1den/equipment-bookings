@@ -20,6 +20,7 @@ block content
 					th(scope='col') End Time
 					th(scope='col') Item Name
 					th(scope='col') Quantity
+					th(scope='col') Comment
 					th(scope='col')
 
 			tbody
@@ -38,6 +39,7 @@ block content
 							td=item.booking_item.quantity
 
 							if index === 0
+								td(rowspan=booking.items.length)=booking.comment
 								td(style={ 'width': 0 }, rowspan=booking.items.length)
 									a.link-dark(href='about:blank', role='button', aria-label='Delete Booking', data-record-id=booking.id): i.bi.bi-trash
 

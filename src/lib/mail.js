@@ -54,7 +54,7 @@ exports.notifyUsers = async (start_date, email, student_name, teacher_name) => {
 		text: `${student_name} has submitted an equipment booking for ${start_date_readable}`,
 		html: `<p>Hello ${teacher_name},&nbsp;</p> 
         <p>This is an automated message to notify you that ${student_name} has submitted an equipment booking for ${start_date_readable}.&nbsp;</p>
-        <p>Please click <a href=http://localhost:3000/report?date='${start_date_readable}'>here</a> to view the booking. You must be logged in in order to do so.
+        <p>Please click <a href="http://localhost:3000/report?date=${start_date_readable}">here</a> to view the booking. You must be logged in in order to do so.
         <p>Thanks</p>`
 	});
 }
