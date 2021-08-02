@@ -199,6 +199,8 @@ const resetForm = async () => {
 
 	bookings.forEach(booking => booking.items.forEach(item => stock[item.category][item.name] -= item.booking_item.quantity));
 
+	items = items.filter(item => !item.hidden);
+
 	// Toggle Elements
 	emptyText.classList.remove('d-none');
 	loadingIcon.classList.add('d-none');
