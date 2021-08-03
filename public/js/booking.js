@@ -225,13 +225,13 @@ bookingForm?.addEventListener('submit', async event => {
 		parsed.items = [];
 
 		Object.keys(data).sort().forEach(key => {
-			const index = key.match(/item-(\d)/)?.[1] ?? null;
+			const index = key.match(/item-(\d+)/)?.[1] ?? null;
 			if (index === null) return;
 
 			if (parsed.items[index] === undefined) parsed.items[index] = [];
 
-			if (/item-\d-index/.test(key)) parsed.items[index][0] = parseInt(items[data[key]].id);
-			if (/item-\d-amount/.test(key)) parsed.items[index][1] = parseInt(data[key]);
+			if (/item-\d+-index/.test(key)) parsed.items[index][0] = parseInt(items[data[key]].id);
+			if (/item-\d+-amount/.test(key)) parsed.items[index][1] = parseInt(data[key]);
 		});
 
 		parsed.items = parsed.items.filter(item => item && item[1] !== 0);
