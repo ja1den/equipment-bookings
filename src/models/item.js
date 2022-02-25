@@ -11,25 +11,25 @@ const Item = sequelize.define('item', {
 		primaryKey: true,
 		allowNull: false,
 		unique: true,
-		autoIncrement: true
+		autoIncrement: true,
 	},
 	name: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true
+		unique: true,
 	},
 	category: {
 		type: DataTypes.STRING,
-		allowNull: false
+		allowNull: false,
 	},
 	stock: {
 		type: DataTypes.INTEGER,
-		allowNull: false
+		allowNull: false,
 	},
 	hidden: {
 		type: DataTypes.BOOLEAN,
-		allowNull: false
-	}
+		allowNull: false,
+	},
 });
 
 // Export

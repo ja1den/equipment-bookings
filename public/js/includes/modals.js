@@ -2,7 +2,7 @@
 const modals = document.getElementsByClassName('modal');
 
 // Iterate
-[...modals].forEach(modal => {
+[...modals].forEach((modal) => {
 	// Locate Form
 	const modalForm = modal.getElementsByTagName('form')[0];
 

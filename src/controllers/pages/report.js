@@ -24,23 +24,23 @@ module.exports = async (req, res) => {
 		const dates = [
 			DateTime.fromJSDate(req.query.date).toISODate(),
 			DateTime.fromJSDate(req.query.date).set({ hours: 0, minute: 0, second: 0, millisecond: 0 }).toJSDate(),
-			DateTime.fromJSDate(req.query.date).set({ hour: 24, minute: 0, second: 0, millisecond: 0 }).toJSDate()
+			DateTime.fromJSDate(req.query.date).set({ hour: 24, minute: 0, second: 0, millisecond: 0 }).toJSDate(),
 		];
 
 		// Read Bookings
 		const bookings = await sequelize.models.booking.findAll({
 			where: {
 				start_date: {
-					[Op.lt]: dates[2]
+					[Op.lt]: dates[2],
 				},
 				end_date: {
-					[Op.gt]: dates[1]
-				}
+					[Op.gt]: dates[1],
+				},
 			},
 			include: [
 				sequelize.models.user,
-				sequelize.models.item
-			]
+				sequelize.models.item,
+			],
 		});
 
 		// Render HTML
@@ -52,4 +52,4 @@ module.exports = async (req, res) => {
 		// Respond
 		res.status(500).end();
 	}
-}
+};

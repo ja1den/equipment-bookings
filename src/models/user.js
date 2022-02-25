@@ -11,33 +11,33 @@ const User = sequelize.define('user', {
 		primaryKey: true,
 		allowNull: false,
 		unique: true,
-		autoIncrement: true
+		autoIncrement: true,
 	},
 	name: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true
+		unique: true,
 	},
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true,
 		validate: {
-			is: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-		}
+			is: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+		},
 	},
 	password: {
 		type: DataTypes.STRING,
-		allowNull: false
+		allowNull: false,
 	},
 	global: {
 		type: DataTypes.BOOLEAN,
-		allowNull: false
+		allowNull: false,
 	},
 	hidden: {
 		type: DataTypes.BOOLEAN,
-		allowNull: false
-	}
+		allowNull: false,
+	},
 });
 
 // Export

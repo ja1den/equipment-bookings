@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
 		const dates = [
 			DateTime.now().set({ hour: 24, minutes: 0, second: 0, millisecond: 0 }).toISO({ suppressSeconds: true }).split('+')[0],
 			DateTime.now().set({ hour: 13, minute: 10, second: 0, millisecond: 0 }).plus({ days: 1 }).toISO({ suppressSeconds: true }).split('+')[0],
-			DateTime.now().set({ hour: 11, minute: 15, second: 0, millisecond: 0 }).plus({ days: 2 }).toISO({ suppressSeconds: true }).split('+')[0]
+			DateTime.now().set({ hour: 11, minute: 15, second: 0, millisecond: 0 }).plus({ days: 2 }).toISO({ suppressSeconds: true }).split('+')[0],
 		];
 
 		// Render HTML
@@ -26,4 +26,4 @@ module.exports = async (req, res) => {
 		// Respond
 		res.status(500).end();
 	}
-}
+};

@@ -17,12 +17,12 @@ module.exports = async (req, res) => {
 		// Read Booking Items
 		let records = await sequelize.models.booking_item.findAll({
 			where: {
-				item_id: req.query.item_id
+				item_id: req.query.item_id,
 			},
 			include: [
 				sequelize.models.booking,
-				sequelize.models.item
-			]
+				sequelize.models.item,
+			],
 		});
 
 		records = records.map(record => record.get({ plain: true }));
@@ -42,4 +42,4 @@ module.exports = async (req, res) => {
 		// Respond
 		res.status(500).end();
 	}
-}
+};

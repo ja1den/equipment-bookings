@@ -46,7 +46,7 @@ const start = async () => {
 		secret: 'group-project',
 		store: new SessionStore({ schema: { tableName: 'session', columnNames: { session_id: 'id' } } }, connection),
 		resave: false,
-		saveUninitialized: false
+		saveUninitialized: false,
 	}));
 
 	// Load Mail

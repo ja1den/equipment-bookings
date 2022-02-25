@@ -1,0 +1,55 @@
+{
+	"env": {
+		"browser": true,
+		"commonjs": true,
+		"es2021": true,
+		"node": true
+	},
+	"extends": "eslint:recommended",
+	"globals": {
+		"bootstrap": "readonly"
+	},
+	"parserOptions": {
+		"ecmaVersion": "latest"
+	},
+	"rules": {
+		"arrow-parens": [
+			2,
+			"as-needed",
+			{
+				"requireForBlockBody": true
+			}
+		],
+		"comma-dangle": [
+			2,
+			"always-multiline"
+		],
+		"indent": [
+			2,
+			"tab",
+			{
+				"SwitchCase": 1
+			}
+		],
+		"linebreak-style": [
+			2,
+			"unix"
+		],
+		"no-unused-vars": [
+			1,
+			{
+				"argsIgnorePattern": "^_",
+				"caughtErrorsIgnorePattern": "^_",
+				"varsIgnorePattern": "^_"
+			}
+		],
+		"quotes": [
+			2,
+			"single"
+		],
+		"semi": [
+			2,
+			"always"
+		]
+	}
+}

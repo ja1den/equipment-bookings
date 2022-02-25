@@ -42,4 +42,4 @@ module.exports = async (req, res) => {
 		// Respond
 		res.status(500).end();
 	}
-}
+};

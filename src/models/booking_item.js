@@ -11,20 +11,20 @@ const BookingItem = sequelize.define('booking_item', {
 		primaryKey: true,
 		allowNull: false,
 		unique: true,
-		autoIncrement: true
+		autoIncrement: true,
 	},
 	booking_id: {
 		type: DataTypes.INTEGER,
-		allowNull: false
+		allowNull: false,
 	},
 	item_id: {
 		type: DataTypes.INTEGER,
-		allowNull: false
+		allowNull: false,
 	},
 	quantity: {
 		type: DataTypes.INTEGER,
-		allowNull: false
-	}
+		allowNull: false,
+	},
 });
 
 // Export

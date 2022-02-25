@@ -6,7 +6,7 @@ const deleteLinks = document.querySelectorAll('a[aria-label="Delete Booking"]');
 /* ----- Delete ----- */
 
 // Handle Click
-deleteLinks.forEach(element => element.addEventListener('click', async event => {
+deleteLinks.forEach(element => element.addEventListener('click', async (event) => {
 	// Prevent Default
 	event.preventDefault();
 
@@ -18,7 +18,7 @@ deleteLinks.forEach(element => element.addEventListener('click', async event => 
 
 	// Emit Request
 	const response = await fetch(`/api/bookings/${id}`, {
-		method: 'DELETE'
+		method: 'DELETE',
 	});
 
 	// Error?

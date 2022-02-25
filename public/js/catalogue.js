@@ -19,13 +19,13 @@ document.querySelectorAll('#item-table tbody tr').forEach(element => items[eleme
 	element.children[0].innerHTML,
 	element.children[1].innerHTML,
 	element.children[2].innerHTML,
-	element.children[3].innerHTML.includes('check')
+	element.children[3].innerHTML.includes('check'),
 ]);
 
 /* ----- Create and Update ----- */
 
 // Handle Submit
-itemForm?.addEventListener('submit', async event => {
+itemForm?.addEventListener('submit', async (event) => {
 	// Prevent Default
 	event.preventDefault();
 
@@ -45,7 +45,7 @@ itemForm?.addEventListener('submit', async event => {
 			response = await fetch('/api/items', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(data)
+				body: JSON.stringify(data),
 			});
 
 			// Error?
@@ -56,7 +56,7 @@ itemForm?.addEventListener('submit', async event => {
 			response = await fetch('/api/items/' + itemForm.dataset.recordId, {
 				method: 'PATCH',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(data)
+				body: JSON.stringify(data),
 			});
 
 			// Error?
@@ -74,7 +74,7 @@ itemForm?.addEventListener('submit', async event => {
 /* ----- Create ----- */
 
 // Handle Click
-createLink?.addEventListener('click', event => {
+createLink?.addEventListener('click', (event) => {
 	// Prevent Default
 	event.preventDefault();
 
@@ -88,7 +88,7 @@ createLink?.addEventListener('click', event => {
 /* ----- Update ----- */
 
 // Handle Click
-updateLinks.forEach(element => element.addEventListener('click', event => {
+updateLinks.forEach(element => element.addEventListener('click', (event) => {
 	// Prevent Default
 	event.preventDefault();
 
@@ -111,7 +111,7 @@ updateLinks.forEach(element => element.addEventListener('click', event => {
 /* ----- Delete ----- */
 
 // Handle Click
-deleteLinks.forEach(element => element.addEventListener('click', async event => {
+deleteLinks.forEach(element => element.addEventListener('click', async (event) => {
 	// Prevent Default
 	event.preventDefault();
 
@@ -123,7 +123,7 @@ deleteLinks.forEach(element => element.addEventListener('click', async event => 
 
 	// Emit Request
 	const response = await fetch(`/api/items/${id}`, {
-		method: 'DELETE'
+		method: 'DELETE',
 	});
 
 	// Error?

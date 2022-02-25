@@ -145,14 +145,14 @@ const preventDuplicates = () => {
 	const list = [...itemList.querySelectorAll('select').values()].map(select => select.value);
 
 	// Disable Selected
-	itemList.querySelectorAll('option').forEach(option => {
+	itemList.querySelectorAll('option').forEach((option) => {
 		// Ignore Hidden
 		if (option.hidden) return;
 
 		// Disable?
 		option.toggleAttribute('disabled', list.includes(option.value) && !option.selected);
 	});
-}
+};
 
 /* ----- Reset Form ----- */
 
@@ -179,7 +179,7 @@ const resetForm = async () => {
 
 	// Request Bookings
 	bookings = await fetch('/api/bookings?start_date=' + data.start_date.toJSON() + '&end_date=' + data.end_date.toJSON(), {
-		method: 'GET'
+		method: 'GET',
 	}).then(response => response.json());
 
 	// Request Items
@@ -199,13 +199,13 @@ const resetForm = async () => {
 	loadingIcon.classList.add('d-none');
 
 	createButton.classList.remove('d-none');
-}
+};
 resetForm();
 
 /* ----- Submit ----- */
 
 // Handle Submit
-bookingForm?.addEventListener('submit', async event => {
+bookingForm?.addEventListener('submit', async (event) => {
 	// Prevent Default
 	event.preventDefault();
 
@@ -224,7 +224,7 @@ bookingForm?.addEventListener('submit', async event => {
 
 		parsed.items = [];
 
-		Object.keys(data).sort().forEach(key => {
+		Object.keys(data).sort().forEach((key) => {
 			const index = key.match(/item-(\d+)/)?.[1] ?? null;
 			if (index === null) return;
 
@@ -243,7 +243,7 @@ bookingForm?.addEventListener('submit', async event => {
 		const response = await fetch('/api/bookings', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(parsed)
+			body: JSON.stringify(parsed),
 		});
 
 		// Error?

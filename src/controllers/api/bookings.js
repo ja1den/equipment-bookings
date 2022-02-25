@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
 
 		// Create Booking Items
 		await Promise.all(req.body.items.map(item => sequelize.models.booking_item.create({
-			booking_id: id, item_id: item[0], quantity: item[1]
+			booking_id: id, item_id: item[0], quantity: item[1],
 		})));
 
 		// Send Mail
@@ -35,9 +35,9 @@ router.post('/', async (req, res) => {
 			where: {
 				[Op.or]: [
 					{ id: req.body.user_id ?? '-1' },
-					{ global: true }
-				]
-			}
+					{ global: true },
+				],
+			},
 		});
 
 		mail.scheduleMail(req.body.start_date, req.body.email, req.body.name);
@@ -80,18 +80,18 @@ router.get('/', async (req, res) => {
 				{
 					model: sequelize.models.user,
 					attributes: {
-						exclude: ['password']
-					}
+						exclude: ['password'],
+					},
 				},
 				{
-					model: sequelize.models.item
-				}
+					model: sequelize.models.item,
+				},
 			];
 		} else {
 			includes = [
 				{
-					model: sequelize.models.item
-				}
+					model: sequelize.models.item,
+				},
 			];
 		}
 
@@ -99,14 +99,14 @@ router.get('/', async (req, res) => {
 		const bookings = await sequelize.models.booking.findAll({
 			where: {
 				start_date: {
-					[Op.lt]: end_date
+					[Op.lt]: end_date,
 				},
 				end_date: {
-					[Op.gt]: start_date
-				}
+					[Op.gt]: start_date,
+				},
 			},
 			attributes: !req.isAuthenticated() ? ['id', 'start_date', 'end_date'] : undefined,
-			include: includes
+			include: includes,
 		});
 
 		// Respond

@@ -6,7 +6,7 @@ const loginForm = document.getElementById('login-form');
 /* ----- Login ----- */
 
 // Handle Submit
-loginForm?.addEventListener('submit', async event => {
+loginForm?.addEventListener('submit', async (event) => {
 	// Prevent Default
 	event.preventDefault();
 
@@ -19,7 +19,7 @@ loginForm?.addEventListener('submit', async event => {
 		const response = await fetch('/api/auth/login', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(data)
+			body: JSON.stringify(data),
 		});
 
 		// Error?
@@ -37,7 +37,7 @@ loginForm?.addEventListener('submit', async event => {
 /* ----- Logout ----- */
 
 // Handle Click
-document.getElementById('logout-link')?.addEventListener('click', async event => {
+document.getElementById('logout-link')?.addEventListener('click', async (event) => {
 	// Prevent Default
 	event.preventDefault();
 

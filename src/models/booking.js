@@ -11,35 +11,35 @@ const Booking = sequelize.define('booking', {
 		primaryKey: true,
 		allowNull: false,
 		unique: true,
-		autoIncrement: true
+		autoIncrement: true,
 	},
 	name: {
 		type: DataTypes.STRING,
-		allowNull: false
+		allowNull: false,
 	},
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false,
 		validate: {
-			is: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-		}
+			is: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+		},
 	},
 	user_id: {
 		type: DataTypes.INTEGER,
-		defaultValue: null
+		defaultValue: null,
 	},
 	comment: {
 		type: DataTypes.STRING,
-		defaultValue: null
+		defaultValue: null,
 	},
 	start_date: {
 		type: DataTypes.DATE,
-		allowNull: false
+		allowNull: false,
 	},
 	end_date: {
 		type: DataTypes.DATE,
-		allowNull: false
-	}
+		allowNull: false,
+	},
 });
 
 // Export

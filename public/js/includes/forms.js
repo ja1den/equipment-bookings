@@ -2,7 +2,7 @@
 const forms = document.getElementsByTagName('form');
 
 // Iterate
-[...forms].forEach(form => {
+[...forms].forEach((form) => {
 	// Reset Styles
 	form.resetStyles = () => {
 		form.querySelectorAll('.invalid-feedback').forEach(element => element.classList.remove('d-none'));
@@ -11,13 +11,13 @@ const forms = document.getElementsByTagName('form');
 		form.classList.remove('was-validated');
 
 		form.querySelector('.text-danger').classList.add('d-none');
-	}
+	};
 
 	// Show Input Errors
 	form.showInputErrors = () => {
 		form.resetStyles();
 		form.classList.add('was-validated');
-	}
+	};
 
 	// Show Error Message
 	form.showErrorMessage = (match = 'input:not([type="checkbox"])') => {
@@ -27,5 +27,5 @@ const forms = document.getElementsByTagName('form');
 		form.querySelectorAll(match).forEach(element => element.classList.add('is-invalid'));
 
 		form.querySelector('.text-danger').classList.remove('d-none');
-	}
+	};
 });
